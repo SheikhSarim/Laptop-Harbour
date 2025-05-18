@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "1045514513525",
+    "project_id": "laptop-harbour-b6832",
+    "storage_bucket": "laptop-harbour-b6832.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1045514513525:android:574dad0a8424154d021c3c",
+        "android_client_info": {
+          "package_name": "com.example.laptops_harbour"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1045514513525-h3moqivrbkf2lnir4avofnfg91qe8r8h.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.laptops_harbour",
+            "certificate_hash": "bdd6d50b174d67a3d9ce32f367854e27137bb42e"
+          }
+        },
+        {
+          "client_id": "1045514513525-2dkrr9e8191jt1dkici6cbeshmu7osc5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBKpEDbU7HL-G42-7Vm4iEvhf_OfgZEmrc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1045514513525-2dkrr9e8191jt1dkici6cbeshmu7osc5.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1045514513525-v1cfibpbjopjci5s32hf4qp9mbk1jshs.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.laptopsHarbour"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

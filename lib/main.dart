@@ -1,22 +1,40 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:laptops_harbour/firebase_options.dart';
+import 'package:laptops_harbour/screens/startup/splash_screen.dart';
+import 'package:laptops_harbour/utils/constants/app_constants.dart';
 
-
-void main() {
-  runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  runApp(const LaptopHarbourApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class LaptopHarbourApp extends StatelessWidget {
+  const LaptopHarbourApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       title: 'Flutter E-Commerce App',
       debugShowCheckedModeBanner: false,
-      // theme: AppTheme.lightTheme, // You can define light/dark theme in app_theme.dart
-      // initialRoute: AppRoutes.initial, // e.g., AppRoutes.splash or AppRoutes.login
-      // routes: AppRoutes.routes,
-      home: Scaffold(body: Center(child: Text('Testing'))),
+
+      theme: ThemeData(
+        primaryColor: AppConstants.primaryColor,
+        scaffoldBackgroundColor: AppConstants.appBackgroundColor,
+        appBarTheme: AppBarTheme(
+          backgroundColor: AppConstants.primaryColor,
+          foregroundColor: AppConstants.appSecondaryColor,
+        ),
+
+        bottomAppBarTheme: BottomAppBarTheme(
+          color: AppConstants.appBackgroundColor,
+        ),
+      ),
+      home: SplashScreen(),
+      initialRoute: '/',
+      getPages: [GetPage(name: '/', page: () => SplashScreen())],
     );
   }
 }

@@ -1,5 +1,8 @@
 plugins {
     id("com.android.application")
+    // START: FlutterFire Configuration
+    id("com.google.gms.google-services")
+    // END: FlutterFire Configuration
     id("kotlin-android")
     // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id("dev.flutter.flutter-gradle-plugin")
@@ -38,7 +41,13 @@ android {
         }
     }
 }
-
+dependencies {
+    implementation("com.google.firebase:firebase-auth:21.0.3")  // Firebase Auth SDK
+    implementation("com.google.firebase:firebase-firestore:24.0.1")  // Firebase Firestore SDK (if you plan to use Firestore)
+    implementation("com.google.android.material:material:1.8.0")  // Material Components (if using Material UI)
+    implementation("androidx.appcompat:appcompat:1.6.0")  // AppCompat Library for UI
+    implementation("androidx.constraintlayout:constraintlayout:2.1.4")  // ConstraintLayout (if used in the UI)
+}
 flutter {
     source = "../.."
 }
