@@ -3,8 +3,8 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:laptops_harbour/screens/auth/login_screen.dart';
-import 'package:laptops_harbour/screens/user_panel/home.dart';
 import 'package:laptops_harbour/utils/constants/app_constants.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class OnboardingScreens extends StatefulWidget {
   const OnboardingScreens({super.key});
@@ -17,7 +17,7 @@ class _OnboardingScreensState extends State<OnboardingScreens> {
   int _currentIndex = 0;
 
   List<Map<String, String>> get splashData {
-    final appName = AppConstants.appTitle ;
+    final appName = AppConstants.appTitle;
     // final appName = Text("Laptops Haorbour");
     return [
       {
@@ -33,9 +33,21 @@ class _OnboardingScreensState extends State<OnboardingScreens> {
       {
         "text":
             "Enjoy a seamless and secure checkout process — shop with confidence, only at $appName.",
-        "image": "assets/images/Credit Card Payment-pana.png",
+        "image": "assets/images/Credit Card Payment.png",
       },
     ];
+  }
+
+  // Save onboarding completion status
+  void completeOnboarding() async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setBool('isOnboardingCompleted', true);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    // _loadPreferences();
   }
 
   @override
@@ -52,21 +64,15 @@ class _OnboardingScreensState extends State<OnboardingScreens> {
             itemBuilder: (context, index, realIndex) {
               final item = splashData[index];
               return Container(
-                // width: screenWidth,
-                // decoration: BoxDecoration(
-                //   image: DecorationImage(
-                //     image: AssetImage(item["image"]!),
-                //     fit: BoxFit.cover,
-                //   ),
-                // ),
+               
                 width: screenWidth,
                 color: AppConstants.surfaceColor,
                 // color: AppConstants.appBackgroundColor,
                 child: Center(
                   child: Image.asset(
                     item["image"]!,
-                    height: screenHeight * 0.8, // Adjust height as needed
-                    fit: BoxFit.contain, // Keeps aspect ratio, doesn't crop
+                    height: screenHeight * 0.8, 
+                    fit: BoxFit.contain, 
                   ),
                 ),
               );
@@ -149,8 +155,8 @@ class _OnboardingScreensState extends State<OnboardingScreens> {
                           "Skip",
                           style: TextStyle(
                             fontSize: 14,
-                            color: AppConstants.secondarybackgroundColor,
-                            fontWeight: FontWeight.bold
+                            color: AppConstants.appButtonColor,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
                       ),
@@ -160,7 +166,7 @@ class _OnboardingScreensState extends State<OnboardingScreens> {
                   if (_currentIndex == splashData.length - 1)
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: AppConstants.secondarybackgroundColor,
+                        backgroundColor: AppConstants.appButtonColor,
                       ),
                       onPressed: () {
                         // Temporarily navigate to LoginScreen directly

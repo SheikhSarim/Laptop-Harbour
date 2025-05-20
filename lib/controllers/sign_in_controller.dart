@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:laptops_harbour/screens/admin-panel/admin_dashboard.dart';
 import 'package:laptops_harbour/screens/user_panel/home.dart';
 import 'package:laptops_harbour/utils/constants/app_constants.dart';
 
@@ -88,7 +89,7 @@ class SignInController extends GetxController {
           backgroundColor: AppConstants.primaryColor,
           colorText: AppConstants.primaryTextColor,
         );
-        // Get.offAll(() => AdminDashboard());
+        Get.offAll(() => AdminDashboard());
       } else {
         Get.snackbar(
           "Success",

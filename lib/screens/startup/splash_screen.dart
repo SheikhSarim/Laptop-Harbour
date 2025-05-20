@@ -1,8 +1,14 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:laptops_harbour/screens/admin-panel/admin_dashboard.dart';
+import 'package:laptops_harbour/screens/auth/login_screen.dart';
 import 'package:laptops_harbour/screens/startup/onboarding.dart';
+import 'package:laptops_harbour/screens/user_panel/home.dart';
 import 'package:laptops_harbour/utils/constants/app_constants.dart';
 import 'package:lottie/lottie.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -15,15 +21,39 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    // Simulate delay and move to onboarding/login screen
-    Future.delayed(Duration(seconds: 5), () {
-      // TODO: Replace with actual logic later
-      Get.offAll(() => OnboardingScreens());
-      // For preview/testing you can also try:
-      // Get.offAll(() => LoginScreen());
-      // Get.offAll(() => HomeScreen());
-      // Get.offAll(() => AdminDashboard());
+    // Add a delay to finish the animation
+    Future.delayed(Duration(seconds: 7), () {
+      _checkUserStatus(); // Check user status after the animation completes
     });
+  }
+
+  void _checkUserStatus() async {
+    final prefs = await SharedPreferences.getInstance();
+    bool isOnboardingCompleted =
+        prefs.getBool('isOnboardingCompleted') ?? false;
+
+    // Check if the user is logged in using FirebaseAuth
+    User? user = FirebaseAuth.instance.currentUser;
+
+    if (user != null) {
+      // Check if the user is an admin
+      final userDoc =
+          await FirebaseFirestore.instance
+              .collection('users')
+              .doc(user.uid)
+              .get();
+      bool isAdmin = userDoc.data()?['isAdmin'] ?? false;
+
+      if (isAdmin) {
+        Get.offAll(() => AdminDashboard());
+      } else {
+        Get.offAll(() => HomeScreen());
+      }
+    } else if (isOnboardingCompleted) {
+      Get.offAll(() => LoginScreen());
+    } else {
+      Get.offAll(() => OnboardingScreens());
+    }
   }
 
   @override
