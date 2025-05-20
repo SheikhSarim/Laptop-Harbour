@@ -3,8 +3,8 @@ import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:get/get.dart';
 import 'package:laptops_harbour/controllers/google_sign_in_controller.dart';
 import 'package:laptops_harbour/controllers/sign_in_controller.dart';
+import 'package:laptops_harbour/screens/auth/forget_password.dart';
 import 'package:laptops_harbour/screens/auth/sign_up_screen.dart';
-import 'package:laptops_harbour/screens/user_panel/home.dart';
 import 'package:laptops_harbour/utils/constants/app_constants.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -33,14 +33,6 @@ class _LoginScreenState extends State<LoginScreen> {
         return Scaffold(
           appBar: AppBar(
             backgroundColor: AppConstants.appBackgroundColor,
-            // centerTitle: true,
-            // title: Text(
-            //   "Sign In",
-            //   style: TextStyle(
-            //     color: AppConstants.primaryTextColor,
-            //     fontWeight: FontWeight.bold,
-            //   ),
-            // ),
             automaticallyImplyLeading: false,
           ),
           body: SingleChildScrollView(
@@ -140,7 +132,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       alignment: Alignment.centerRight,
                       child: GestureDetector(
                         onTap: () {
-                          // Get.to(() => ForgetPasswordScreen());
+                          Get.to(() => ForgetPasswordScreen());
                         },
                         child: Text(
                           "Forget Password?",
@@ -159,7 +151,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         width: Get.width / 2,
                         height: Get.height / 18,
                         decoration: BoxDecoration(
-                          color: AppConstants.secondarybackgroundColor,
+                          color: AppConstants.appButtonColor,
                           borderRadius: BorderRadius.circular(20.0),
                         ),
                         child: Obx(
