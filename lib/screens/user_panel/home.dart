@@ -1,233 +1,171 @@
 import 'package:flutter/material.dart';
-import 'package:laptops_harbour/screens/auth/logout.dart';
+import 'package:get/get.dart';
+import 'package:laptops_harbour/controllers/home_controller.dart';
+import 'package:laptops_harbour/controllers/product_controller.dart';
+import 'package:laptops_harbour/screens/user_panel/store/store.dart';
+import 'package:laptops_harbour/utils/brand_card_carosuel.dart';
 import 'package:laptops_harbour/utils/constants/app_constants.dart';
+import 'package:laptops_harbour/widgets/bottom_nav_bar.dart';
+import 'package:laptops_harbour/widgets/carosuel_slider.dart';
+import 'package:laptops_harbour/widgets/drawer.dart';
+import 'package:laptops_harbour/widgets/product_card.dart';
+
+final List<String> images = [
+  'https://d1csarkz8obe9u.cloudfront.net/posterpreviews/laptop-sale-template-design-df4be79b4d18b6c7fdabde8ec7780bce_screen.jpg?ts=1720168468',
+  'https://t3.ftcdn.net/jpg/04/65/46/52/360_F_465465254_1pN9MGrA831idD6zIBL7q8rnZZpUCQTy.jpg',
+  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCPW1oZLDImt54gJ05-SLdBZISkljbXbHBow&s',
+];
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final HomeController homeController = Get.put(HomeController());
+    homeController.fetchUserData();
     return Scaffold(
       appBar: AppBar(
         leading: Builder(
           builder: (BuildContext context) {
             return IconButton(
-              icon: Icon(
-                Icons.menu,
-                color: Colors.black,
-              ), // App main text color
+              icon: Icon(Icons.menu, color: Colors.black),
               onPressed: () {
-                Scaffold.of(context).openDrawer(); // Open the drawer
+                Scaffold.of(context).openDrawer();
               },
             );
           },
         ),
         actions: [
           IconButton(
-            icon: Icon(
-              Icons.logout,
-              color: Colors.black,
-            ), // App main text color
+            icon: Icon(Icons.search, color: AppConstants.primaryIconColor),
             onPressed: () {
-              logout();
+              // Search();
+            },
+          ),
+          IconButton(
+            icon: Icon(
+              Icons.shopping_bag_rounded,
+              color: AppConstants.primaryIconColor,
+            ),
+            onPressed: () {
+              // Cart();
             },
           ),
         ],
-        backgroundColor:
-            AppConstants.appBackgroundColor, // App background color
+        backgroundColor: AppConstants.appBackgroundColor,
       ),
-      body: SingleChildScrollView(
-        physics: BouncingScrollPhysics(),
-        padding: EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(height: 3),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16),
-              // child: RichText(
-              //   text: TextSpan(
-              //     children: [
-              //       TextSpan(
-              //         text: 'Discover the new ',
-              //         style: TextStyle(
-              //           fontSize: 32,
-              //           fontWeight: FontWeight.bold,
-              //           color: Colors.black, // Main text color
-              //         ),
-              //       ),
-              //       TextSpan(
-              //         text: 'WAY',
-              //         style: TextStyle(
-              //           fontSize: 32,
-              //           fontWeight: FontWeight.bold,
-              //           color: Colors.orange, // Main accent color
-              //         ),
-              //       ),
-              //     ],
-              //   ),
-              // ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [Text("Discover"), Icon(Icons.shopping_bag_rounded)],
-              ),
-            ),
-            TextField(
-              decoration: InputDecoration(
-                hintText: 'Search',
-                prefixIcon: Icon(Icons.search),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12.0),
-                  borderSide: BorderSide.none,
-                ),
-                filled: true,
-                fillColor: Colors.grey[200],
-                contentPadding: EdgeInsets.symmetric(
-                  vertical: 0,
-                  horizontal: 16,
-                ),
-              ),
-            ),
-            SizedBox(height: 20),
-            // Placeholder for Carousel Widget
-            Container(
-              height: 200,
-              color: Colors.grey[300],
-              child: Center(child: Text('Carousel Placeholder')),
-            ),
-            SizedBox(height: 20),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Title Row
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Popular Brands',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Text('See all', style: TextStyle(color: Colors.blue)),
-                  ],
-                ),
-                const SizedBox(height: 16),
-                // Brand placeholders
-                Row(
-                  children: [
-                    buildBrandCard('Apple'),
-                    const SizedBox(width: 12),
-                    buildBrandCard('ASUS'),
-                    const SizedBox(width: 12),
-                    buildBrandCard('HP'),
-                  ],
-                ),
-              ],
-            ),
+      drawer: DrawerWidget(),
+      body: Obx(() {
+        switch (homeController.selectedTabIndex.value) {
+          case 0:
+            return const _HomeTabContent();
+          case 1:
+            return const Store();
+          case 2:
+            // return const WishlistScreen();
+          case 3:
+            // return const ProfileScreen();
+          default:
+            return const _HomeTabContent();
+        }
+      }),
+      bottomNavigationBar: const BottomNavBar(),
+    );
+  }
+}
 
-            // // Placeholder for CityCardCarousel widget
-            // Container(
-            //   height: 150,
-            //   color: Colors.grey[300],
-            //   child: Center(child: Text('City Card Carousel Placeholder')),
-            // ),
-            SizedBox(height: 20),
-            Text(
-              'Popular Attractions',
+class _HomeTabContent extends StatelessWidget {
+  const _HomeTabContent();
+
+  @override
+  Widget build(BuildContext context) {
+    final ProductController productController = Get.put(ProductController());
+
+    final List<String> images = [
+      'https://d1csarkz8obe9u.cloudfront.net/posterpreviews/laptop-sale-template-design-df4be79b4d18b6c7fdabde8ec7780bce_screen.jpg?ts=1720168468',
+      'https://t3.ftcdn.net/jpg/04/65/46/52/360_F_465465254_1pN9MGrA831idD6zIBL7q8rnZZpUCQTy.jpg',
+      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCPW1oZLDImt54gJ05-SLdBZISkljbXbHBow&s',
+    ];
+
+    return SingleChildScrollView(
+      physics: BouncingScrollPhysics(),
+      padding: EdgeInsets.all(16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(height: 3),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16),
+            child: Text(
+              "Discover",
               style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.w900,
-                color: Colors.black, // Main text color
+                fontSize: 30,
+                fontWeight: FontWeight.bold,
+                color: AppConstants.primaryTextColor,
               ),
             ),
-            SizedBox(height: 10),
-            Divider(height: 1, color: Colors.grey[300]),
-            SizedBox(height: 10),
-            GridView.count(
-              crossAxisCount: 2, // 2 items per row
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-              crossAxisSpacing: 12,
-              mainAxisSpacing: 12,
-              childAspectRatio: 3, // Adjust as needed for item shape
-              children: List.generate(6, (index) {
-                return Container(
-                  padding: EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: Colors.grey[200],
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Center(child: Text('Product $index')),
-                );
-              }),
-            ),
-          ],
-        ),
-      ),
-      bottomNavigationBar: BottomAppBar(
-        notchMargin: 10.0,
-        shape: CircularNotchedRectangle(),
-        color: Colors.grey[200], // App container color
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            _buildBottomNavItem(0, Icons.home, 'Home'),
-            _buildBottomNavItem(1, Icons.explore, 'Explore'),
-            _buildBottomNavItem(2, Icons.account_circle, 'Profile'),
-          ],
-        ),
-      ),
-      // drawer: DrawerWidget(), // Drawer widget used
-    );
-  }
-
-  // Helper method to build individual bottom navigation items
-  Widget _buildBottomNavItem(int index, IconData icon, String label) {
-    return GestureDetector(
-      onTap: () {
-        // Placeholder for tab change logic
-      },
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(
-            icon,
-            color: Colors.black, // Main text color when inactive
           ),
+          SizedBox(height: 20),
+          TextField(
+            decoration: InputDecoration(
+              hintText: 'Search',
+              prefixIcon: Icon(Icons.search),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12.0),
+                borderSide: BorderSide.none,
+              ),
+              filled: true,
+              fillColor: Colors.grey[200],
+              contentPadding: EdgeInsets.symmetric(
+                vertical: 0,
+                horizontal: 16,
+              ),
+            ),
+          ),
+          SizedBox(height: 20),
+          CarouselWidget(images: images),
+          SizedBox(height: 20),
+          BrandCardCarousel(),
+          SizedBox(height: 20),
           Text(
-            label,
+            'Popular Products',
             style: TextStyle(
-              color: Colors.black, // Main text color when inactive
+              fontSize: 20,
+              fontWeight: FontWeight.w900,
+              color: Colors.black,
             ),
           ),
-        ],
-      ),
-    );
-  }
-
-  Widget buildBrandCard(String brandName) {
-    return Container(
-      width: 90,
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: Colors.grey[100],
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.grey.shade300),
-      ),
-      child: Column(
-        children: [
-          Container(
-            height: 40,
-            width: 40,
-            decoration: BoxDecoration(
-              color: Colors.grey[400], // Placeholder for image/icon
-              shape: BoxShape.circle,
-            ),
-          ),
-          const SizedBox(height: 8),
-          Text(brandName, style: TextStyle(fontSize: 14)),
+          SizedBox(height: 10),
+          Divider(height: 1, color: Colors.grey[300]),
+          SizedBox(height: 10),
+          Obx(() {
+            if (productController.isLoading.value) {
+              return const Center(child: CircularProgressIndicator());
+            }
+            if (productController.products.isEmpty) {
+              return const Center(child: Text('No products found.'));
+            }
+            return GridView.builder(
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: 12,
+                mainAxisSpacing: 12,
+                childAspectRatio: 0.8,
+              ),
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: productController.products.length,
+              itemBuilder: (context, index) {
+                final product = productController.products[index];
+                return ProductCard(
+                  product: product,
+                  onTap: () {
+                    print('Tapped on: ${product.name}');
+                  },
+                );
+              },
+            );
+          }),
         ],
       ),
     );
