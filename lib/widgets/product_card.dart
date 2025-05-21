@@ -96,7 +96,7 @@ class _ProductCardState extends State<ProductCard> {
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w500,
-                        color: AppConstants.primaryColor,
+                        color: AppConstants.priceGreen,
                       ),
                     ),
                     // Rating

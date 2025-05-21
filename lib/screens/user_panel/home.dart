@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:laptops_harbour/controllers/cart_controller.dart';
 import 'package:laptops_harbour/controllers/home_controller.dart';
 import 'package:laptops_harbour/controllers/product_controller.dart';
 import 'package:laptops_harbour/screens/user_panel/store/store.dart';
@@ -22,6 +23,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final HomeController homeController = Get.put(HomeController());
+    final CartController cartController = Get.find();
     homeController.fetchUserData();
     return Scaffold(
       appBar: AppBar(
@@ -43,12 +45,43 @@ class HomeScreen extends StatelessWidget {
             },
           ),
           IconButton(
-            icon: Icon(
-              Icons.shopping_bag_rounded,
-              color: AppConstants.primaryIconColor,
+            icon: Stack(
+              children: [
+                Icon(
+                  Icons.shopping_bag_rounded,
+                  color: AppConstants.primaryIconColor,
+                ),
+                Positioned(
+                  left: 0,
+                  top: -1,
+                  child: Obx(
+                    () =>
+                        cartController.cartItems.isNotEmpty
+                            ? Container(
+                              // padding: EdgeInsets.all(4),
+                              height: 15,
+                              width: 15,
+                              decoration: BoxDecoration(
+                                color: AppConstants.appStatusBarColor,
+                                shape: BoxShape.circle,
+                              ),
+                              child: Center(
+                                child: Text(
+                                  '${cartController.cartItems.length}',
+                                  style: TextStyle(
+                                    color: AppConstants.invertTextColor,
+                                    fontSize: 10,
+                                  ),
+                                ),
+                              ),
+                            )
+                            : SizedBox.shrink(),
+                  ),
+                ),
+              ],
             ),
             onPressed: () {
-              // Cart();
+              Get.toNamed('/cart');
             },
           ),
         ],
@@ -60,11 +93,11 @@ class HomeScreen extends StatelessWidget {
           case 0:
             return const _HomeTabContent();
           case 1:
-            return const Store();
+            return Store();
           case 2:
-            // return const WishlistScreen();
+          // return const WishlistScreen();
           case 3:
-            // return const ProfileScreen();
+          // return const ProfileScreen();
           default:
             return const _HomeTabContent();
         }
@@ -116,10 +149,7 @@ class _HomeTabContent extends StatelessWidget {
               ),
               filled: true,
               fillColor: Colors.grey[200],
-              contentPadding: EdgeInsets.symmetric(
-                vertical: 0,
-                horizontal: 16,
-              ),
+              contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 16),
             ),
           ),
           SizedBox(height: 20),
@@ -160,7 +190,7 @@ class _HomeTabContent extends StatelessWidget {
                 return ProductCard(
                   product: product,
                   onTap: () {
-                    print('Tapped on: ${product.name}');
+                    Get.toNamed('/productDetails/${product.id}');
                   },
                 );
               },

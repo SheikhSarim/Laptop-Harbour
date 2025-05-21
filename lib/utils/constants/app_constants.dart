@@ -37,12 +37,13 @@ class AppConstants {
   static const primaryColor = Color(0xFFFF543D);
   static const appSecondaryColor = Color(0xFFE5E7EB); // Slate Gray
 
-  static const accentAmber = Color(0xFFFFC107); // Amber Yellow
-  static const accentBlue = Color(0xFF36A3F2); // Sky Blue
+
+  static const priceGreen = Color(0xFF4CAF50); // Green for Price
+
   static const accentDarkGrey = Color(0xFF555555);
   static const accentGrey = Color(0xFF9B9B9B);
 
-  static const backgroundColor = Color(0xFFF9FAFB); // Snow Gray
+  static const backgroundColor = Color(0xFFF9F9F9); // Snow Gray
   static const surfaceColor = Color(0xFFFFFFFF); // Soft White
 
   static const primaryTextColor = Color(0xFF1A1A1A); // Almost Black
@@ -51,7 +52,7 @@ class AppConstants {
 
   static const appButtonColor = Color(0xFF1A1A1A);
 
-   static const primaryIconColor = Color(0xFF1A1A1A);
+  static const primaryIconColor = Color(0xFF1A1A1A);
 
   static const appStatusBarColor = primaryColor;
 

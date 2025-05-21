@@ -2,24 +2,25 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class UserModel {
+  String userId;
   String username;
   String email;
   String contactNumber;
-  String userId;
   final bool isAdmin;
-  final dynamic createdOn; 
+  final dynamic createdOn;
 
   UserModel({
+    required this.userId,
     required this.username,
     required this.email,
     required this.contactNumber,
-    required this.userId,
     required this.isAdmin,
     required this.createdOn,
   });
 
   Map<String, dynamic> toMap() {
     return {
+      'userId': userId, 
       'username': username,
       'email': email,
       'contactNumber': contactNumber,
@@ -30,12 +31,12 @@ class UserModel {
 
   factory UserModel.fromMap(Map<String, dynamic> map) {
     return UserModel(
-      username: map['username'],
-      email: map['email'],
-      contactNumber: map['contactNumber'],
-      userId: map['userId'],
+      userId: map['userId'] ?? '', 
+      username: map['username'] ?? 'Guest',
+      email: map['email'] ?? '',
+      contactNumber: map['contactNumber'] ?? '',
       isAdmin: map['isAdmin'] ?? false,
-      createdOn: map['createdOn'] as Timestamp,
+      createdOn: map['createdOn'] ?? Timestamp.now(),
     );
   }
 
@@ -79,7 +80,10 @@ class UserModel {
   static Future<UserModel?> getUserFromFirestore(String userId) async {
     try {
       DocumentSnapshot doc =
-          await FirebaseFirestore.instance.collection('users').doc(userId).get();
+          await FirebaseFirestore.instance
+              .collection('users')
+              .doc(userId)
+              .get();
       if (doc.exists) {
         return UserModel.fromMap(doc.data() as Map<String, dynamic>);
       }
