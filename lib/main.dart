@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:laptops_harbour/controllers/cart_controller.dart';
+import 'package:laptops_harbour/controllers/product_controller.dart';
 import 'package:laptops_harbour/firebase_options.dart';
 import 'package:laptops_harbour/screens/admin-panel/admin_dashboard.dart';
 import 'package:laptops_harbour/screens/auth/login_screen.dart';
@@ -12,6 +13,7 @@ import 'package:laptops_harbour/screens/user_panel/home.dart';
 import 'package:laptops_harbour/screens/user_panel/product/product_detals.dart';
 import 'package:laptops_harbour/screens/user_panel/store/store.dart';
 import 'package:laptops_harbour/screens/user_panel/cart/cart_screen.dart';
+import 'package:laptops_harbour/screens/user_panel/store/store_screen.dart';
 import 'package:laptops_harbour/utils/constants/app_constants.dart';
 
 void main() async {
@@ -53,7 +55,11 @@ class LaptopHarbourApp extends StatelessWidget {
         GetPage(name: '/home', page: () => HomeScreen()),
         GetPage(name: '/admin', page: () => AdminDashboard()),
         GetPage(name: '/store', page: () => Store()),
-        GetPage(name: '/cart', page: () => CartScreen()),
+        GetPage(name: '/storescreen', page: () => StoreScreen()),
+        GetPage(name: '/cart', page: () {
+          final ProductController productController = Get.find<ProductController>();
+          return CartScreen(products: productController.products);
+        }),
 
         // For ProductDetails: using parameters
         GetPage(

@@ -8,7 +8,7 @@ class CartController extends GetxController {
   var couponApplied = false.obs;
   var couponCode = ''.obs;
   final String coupon = 'sarim123';
-  final double couponDiscount = 0.1; // 10% discount
+  final double couponDiscount = 0.1;
 
   @override
   void onInit() {
@@ -19,11 +19,23 @@ class CartController extends GetxController {
   void addToCart(CartItem item) {
     int index = cartItems.indexWhere((e) => e.productId == item.productId);
     if (index >= 0) {
-      cartItems[index].quantity++;
+      if (cartItems[index].quantity < cartItems[index].availableQuantity) {
+        cartItems[index] = CartItem(
+          productId: cartItems[index].productId,
+          title: cartItems[index].title,
+          imageUrl: cartItems[index].imageUrl,
+          price: cartItems[index].price,
+          quantity: cartItems[index].quantity + 1,
+          availableQuantity: cartItems[index].availableQuantity,
+        );
+        saveCart();
+      }
     } else {
-      cartItems.add(item);
+      if (item.quantity <= item.availableQuantity) {
+        cartItems.add(item);
+        saveCart();
+      }
     }
-    saveCart();
   }
 
   void removeFromCart(String productId) {
@@ -33,13 +45,14 @@ class CartController extends GetxController {
 
   void increaseQuantity(String productId) {
     int index = cartItems.indexWhere((e) => e.productId == productId);
-    if (index >= 0) {
+    if (index >= 0 && cartItems[index].quantity < cartItems[index].availableQuantity) {
       cartItems[index] = CartItem(
         productId: cartItems[index].productId,
         title: cartItems[index].title,
         imageUrl: cartItems[index].imageUrl,
         price: cartItems[index].price,
         quantity: cartItems[index].quantity + 1,
+        availableQuantity: cartItems[index].availableQuantity,
       );
       saveCart();
     }
@@ -54,6 +67,7 @@ class CartController extends GetxController {
         imageUrl: cartItems[index].imageUrl,
         price: cartItems[index].price,
         quantity: cartItems[index].quantity - 1,
+        availableQuantity: cartItems[index].availableQuantity,
       );
       saveCart();
     }
