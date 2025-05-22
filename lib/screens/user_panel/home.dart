@@ -4,6 +4,7 @@ import 'package:laptops_harbour/controllers/cart_controller.dart';
 import 'package:laptops_harbour/controllers/home_controller.dart';
 import 'package:laptops_harbour/controllers/product_controller.dart';
 import 'package:laptops_harbour/screens/user_panel/store/store.dart';
+import 'package:laptops_harbour/screens/user_panel/wishlist.dart';
 import 'package:laptops_harbour/utils/brand_card_carosuel.dart';
 import 'package:laptops_harbour/utils/constants/app_constants.dart';
 import 'package:laptops_harbour/widgets/bottom_nav_bar.dart';
@@ -48,7 +49,7 @@ class HomeScreen extends StatelessWidget {
             icon: Stack(
               children: [
                 Icon(
-                  Icons.shopping_bag_rounded,
+                  Icons.shopping_cart_outlined,
                   color: AppConstants.primaryIconColor,
                 ),
                 Positioned(
@@ -95,7 +96,7 @@ class HomeScreen extends StatelessWidget {
           case 1:
             return Store();
           case 2:
-          // return const WishlistScreen();
+          return WishlistScreen();
           case 3:
           // return const ProfileScreen();
           default:
@@ -157,15 +158,34 @@ class _HomeTabContent extends StatelessWidget {
           SizedBox(height: 20),
           BrandCardCarousel(),
           SizedBox(height: 20),
-          Text(
-            'Popular Products',
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.w900,
-              color: Colors.black,
-            ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Popular Products',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w900,
+                  color: Colors.black,
+                ),
+              ),
+              GestureDetector(
+                onTap: () {
+                  Get.toNamed('/storescreen');
+                },
+                child: Text(
+                  'See all',
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.blue,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+            ],
           ),
           SizedBox(height: 10),
+
           Divider(height: 1, color: Colors.grey[300]),
           SizedBox(height: 10),
           Obx(() {
@@ -175,6 +195,10 @@ class _HomeTabContent extends StatelessWidget {
             if (productController.products.isEmpty) {
               return const Center(child: Text('No products found.'));
             }
+
+            // Limit the products to a maximum of 6 for the home screen
+            final limitedProducts = productController.products.take(4).toList();
+
             return GridView.builder(
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
@@ -184,9 +208,9 @@ class _HomeTabContent extends StatelessWidget {
               ),
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
-              itemCount: productController.products.length,
+              itemCount: limitedProducts.length,
               itemBuilder: (context, index) {
-                final product = productController.products[index];
+                final product = limitedProducts[index];
                 return ProductCard(
                   product: product,
                   onTap: () {

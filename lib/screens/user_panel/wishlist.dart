@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:laptops_harbour/models/product_model.dart';
-import 'package:laptops_harbour/utils/constants/app_constants.dart';
 import 'package:laptops_harbour/widgets/product_card.dart';
 import 'package:laptops_harbour/controllers/product_controller.dart';
 import 'package:get/get.dart';
 
 class WishlistScreen extends StatefulWidget {
-  const WishlistScreen({Key? key}) : super(key: key);
+  const WishlistScreen({super.key});
 
   @override
   State<WishlistScreen> createState() => _WishlistScreenState();
