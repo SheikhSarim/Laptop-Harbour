@@ -7,8 +7,9 @@ import 'package:laptops_harbour/utils/constants/app_constants.dart';
 class ProductCard extends StatefulWidget {
   final ProductModel product;
   final Function onTap;
+  final VoidCallback? onFavoriteToggle;
 
-  const ProductCard({Key? key, required this.product, required this.onTap})
+  const ProductCard({Key? key, required this.product, required this.onTap, this.onFavoriteToggle})
     : super(key: key);
 
   @override
@@ -37,6 +38,9 @@ class _ProductCardState extends State<ProductCard> {
       isFavorite = !isFavorite;
     });
     await prefs.setBool('favorite_${widget.product.id}', isFavorite);
+    if (widget.onFavoriteToggle != null) {
+      widget.onFavoriteToggle!();
+    }
   }
 
   @override
@@ -125,20 +129,40 @@ class _ProductCardState extends State<ProductCard> {
             child: GestureDetector(
               onTap: _toggleFavorite,
               child: Container(
-                padding: EdgeInsets.all(6), // Adjust for size
+                padding: EdgeInsets.all(6),
                 decoration: BoxDecoration(
-                  color: AppConstants.surfaceColor, // Light grey background
+                  color: AppConstants.surfaceColor,
                   shape: BoxShape.circle,
                 ),
                 child: Icon(
                   isFavorite ? Icons.favorite : Icons.favorite_border,
                   color: isFavorite ? Colors.red : Colors.grey,
-                  size:
-                      20, // Optional: reduce icon size to fit nicely in circle
+                  size: 20,
                 ),
               ),
             ),
           ),
+          // Out of Stock Badge (top-right)
+          if (!widget.product.inStock)
+            Positioned(
+              top: 8,
+              right: 8,
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                decoration: BoxDecoration(
+                  color: Colors.redAccent,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Text(
+                  'Out of Stock',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 12,
+                  ),
+                ),
+              ),
+            ),
         ],
       ),
     );

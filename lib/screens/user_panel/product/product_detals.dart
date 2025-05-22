@@ -207,31 +207,65 @@ class _ProductDetailsState extends State<ProductDetails> {
                     ),
                   ),
 
+                  // Check product stock before adding to the cart
                   Material(
                     child: Container(
                       width: Get.width / 2,
                       height: Get.height / 18,
                       decoration: BoxDecoration(
-                        color: AppConstants.appButtonColor,
+                        color:
+                            product.inStock
+                                ? AppConstants.appButtonColor
+                                : AppConstants.accentGrey,
                         borderRadius: BorderRadius.circular(20.0),
                       ),
                       child: TextButton(
-                        onPressed: () {
-                          final ProductModel? product = productController.products.firstWhereOrNull((p) => p.id == widget.productId);
-                          if (product != null) {
-                            cartController.addToCart(CartItem(
-                              productId: product.id,
-                              title: product.name,
-                              imageUrl: product.imageUrl,
-                              price: product.price,
-                            ));
-                            Get.snackbar('Added to Cart', '${product.name} added to cart!', snackPosition: SnackPosition.BOTTOM);
-                          }
-                        },
+                        onPressed:
+                            product.inStock
+                                ? () {
+                                  final ProductModel? product =
+                                      productController.products
+                                          .firstWhereOrNull(
+                                            (p) => p.id == widget.productId,
+                                          );
+                                  if (product != null) {
+                                    if (product.inStock) {
+                                      cartController.addToCart(
+                                        CartItem(
+                                          productId: product.id,
+                                          title: product.name,
+                                          imageUrl: product.imageUrl,
+                                          price: product.price,
+                                          availableQuantity: product.quantity,
+                                        ),
+                                      );
+
+                                      Get.snackbar(
+                                        'Added to Cart',
+                                        '${product.name} added to cart!',
+                                        snackPosition: SnackPosition.BOTTOM,
+                                      );
+                                    } else {
+                                      Get.snackbar(
+                                        'Out of Stock',
+                                        'This product is currently out of stock.',
+                                        snackPosition: SnackPosition.BOTTOM,
+                                        backgroundColor:
+                                            AppConstants.primaryColor,
+                                        colorText: AppConstants.invertTextColor,
+                                      );
+                                    }
+                                  }
+                                }
+                                : null,
+
                         child: Text(
-                          "ADD TO CART",
+                          product.inStock ? "ADD TO CART" : "OUT OF STOCK",
                           style: TextStyle(
-                            color: AppConstants.appSecondaryColor,
+                            color:
+                                product.inStock
+                                    ? AppConstants.appSecondaryColor
+                                    : AppConstants.accentDarkGrey,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -320,7 +354,6 @@ class _ProductDetailsState extends State<ProductDetails> {
           ),
         );
       }),
-     
     );
   }
 }

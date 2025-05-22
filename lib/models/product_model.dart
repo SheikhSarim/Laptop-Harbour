@@ -3,14 +3,14 @@ import 'package:laptops_harbour/models/user_review.dart';
 class ProductModel {
   final String id;
   final String name;
-  final String brandId; // 🔗 Reference to brand (ID only)
+  final String brandId;
   final String description;
   final String imageUrl;
   final double price;
   final double rating;
   final List<String> specifications;
   final List<UserReview> reviews;
-  final bool inStock;
+  final int quantity; // ✅ New field
   final String category;
 
   ProductModel({
@@ -20,14 +20,15 @@ class ProductModel {
     required this.description,
     required this.imageUrl,
     required this.price,
-    required this.rating,
+    this.rating = 0.0,
     required this.specifications,
     required this.reviews,
-    required this.inStock,
+    required this.quantity,
     required this.category,
   });
 
-  // 🔄 Convert to Firestore Map (save only brandId)
+  bool get inStock => quantity > 0; // ✅ inStock derived from quantity
+
   Map<String, dynamic> toMap() {
     return {
       'id': id,
@@ -39,21 +40,20 @@ class ProductModel {
       'rating': rating,
       'specifications': specifications,
       'reviews': reviews.map((review) => review.toJson()).toList(),
-      'inStock': inStock,
+      'quantity': quantity,
       'category': category,
     };
   }
 
-  // 🔄 Create from Firestore Map
   factory ProductModel.fromMap(String id, Map<String, dynamic> map) {
     return ProductModel(
-      id: id, // Use Firestore doc ID, not the one in map (or missing)
+      id: id,
       name: map['name'] ?? 'Unnamed Product',
       brandId: map['brandId'] ?? 'unknown',
       description: map['description'] ?? '',
       imageUrl: map['imageUrl'] ?? '',
       price: (map['price'] ?? 0).toDouble(),
-      rating: (map['rating'] ?? 0).toDouble(),
+      rating: map['rating'] != null ? (map['rating'] as num).toDouble() : 0.0,
       specifications: List<String>.from(map['specifications'] ?? []),
       reviews:
           map['reviews'] != null
@@ -61,7 +61,7 @@ class ProductModel {
                 (map['reviews'] as List).map((x) => UserReview.fromMap(x)),
               )
               : [],
-      inStock: map['inStock'] ?? true,
+      quantity: map['quantity'] ?? 0,
       category: map['category'] ?? 'General',
     );
   }

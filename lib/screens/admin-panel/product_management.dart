@@ -18,9 +18,9 @@ class _ProductManagementScreenState extends State<ProductManagementScreen> {
   void initState() {
     super.initState();
     adminController.fetchBrands();
-    adminController.fetchProducts(); 
+    adminController.fetchProducts();
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,31 +38,49 @@ class _ProductManagementScreenState extends State<ProductManagementScreen> {
             final brand = adminController.brands.firstWhereOrNull(
               (b) => b.id == product.brandId,
             );
+
             return Card(
               margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               color: AppConstants.surfaceColor,
-              child: ListTile(
-                title: Text(
-                  product.name,
-                  style: const TextStyle(fontWeight: FontWeight.bold),
-                ),
-                subtitle: Text('Brand: ${brand?.name ?? 'Unknown'}'),
-
-                trailing: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    IconButton(
-                      icon: const Icon(Icons.edit, color: Colors.blue),
-                      onPressed:
-                          () => _showProductForm(context, product: product),
+              child: Stack(
+                children: [
+                  ListTile(
+                    title: Text(
+                      product.name,
+                      style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
-                    IconButton(
-                      icon: const Icon(Icons.delete, color: Colors.red),
-                      onPressed:
-                          () => adminController.deleteProduct(product.id),
+                    subtitle: Text('Brand: ${brand?.name ?? 'Unknown'}'),
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        IconButton(
+                          icon: const Icon(Icons.edit, color: Colors.blue),
+                          onPressed: () => _showProductForm(context, product: product),
+                        ),
+                        IconButton(
+                          icon: const Icon(Icons.delete, color: Colors.red),
+                          onPressed: () => adminController.deleteProduct(product.id),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                  if (!product.inStock)
+                    Positioned(
+                      right: 8,
+                      top: 8,
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                        decoration: BoxDecoration(
+                          color: Colors.red,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: const Text(
+                          'Out of Stock',
+                          style: TextStyle(color: Colors.white, fontSize: 12),
+                        ),
+                      ),
+                    ),
+                ],
               ),
             );
           },
@@ -79,28 +97,19 @@ class _ProductManagementScreenState extends State<ProductManagementScreen> {
 
   void _showProductForm(BuildContext context, {ProductModel? product}) {
     final nameController = TextEditingController(text: product?.name ?? '');
-    String selectedBrandId = product?.brandId ?? '';
-    // Fetch brands when the form is opened
-    adminController.fetchBrands();
-    final descriptionController = TextEditingController(
-      text: product?.description ?? '',
-    );
-    final imageUrlController = TextEditingController(
-      text: product?.imageUrl ?? '',
-    );
-    final priceController = TextEditingController(
-      text: product != null ? product.price.toString() : '',
-    );
-    final ratingController = TextEditingController(
-      text: product != null ? product.rating.toString() : '',
-    );
+    final descriptionController = TextEditingController(text: product?.description ?? '');
+    final imageUrlController = TextEditingController(text: product?.imageUrl ?? '');
+    final priceController = TextEditingController(text: product?.price.toString() ?? '');
     final specController = TextEditingController(
       text: product?.specifications.join(', ') ?? '',
     );
-    final categoryController = TextEditingController(
-      text: product?.category ?? '',
+    final categoryController = TextEditingController(text: product?.category ?? '');
+    final quantityController = TextEditingController(
+      text: product != null ? product.quantity.toString() : '',
     );
-    final inStock = RxBool(product?.inStock ?? true);
+
+    String selectedBrandId = product?.brandId ?? '';
+    adminController.fetchBrands();
 
     showDialog(
       context: context,
@@ -114,53 +123,27 @@ class _ProductManagementScreenState extends State<ProductManagementScreen> {
                 _textField(label: 'Name', controller: nameController),
                 Obx(() {
                   final brands = adminController.brands;
-                  if (brands.isEmpty) {
-                    return const CircularProgressIndicator();
-                  }
-
+                  if (brands.isEmpty) return const CircularProgressIndicator();
                   return DropdownButtonFormField<String>(
                     value: selectedBrandId.isNotEmpty ? selectedBrandId : null,
                     decoration: const InputDecoration(labelText: 'Brand'),
-                    items:
-                        brands.map((brand) {
-                          return DropdownMenuItem<String>(
-                            value: brand.id,
-                            child: Text(brand.name),
-                          );
-                        }).toList(),
+                    items: brands.map((brand) {
+                      return DropdownMenuItem<String>(
+                        value: brand.id,
+                        child: Text(brand.name),
+                      );
+                    }).toList(),
                     onChanged: (value) {
                       selectedBrandId = value!;
                     },
                   );
                 }),
-
-                _textField(
-                  label: 'Description',
-                  controller: descriptionController,
-                ),
+                _textField(label: 'Description', controller: descriptionController),
                 _textField(label: 'Image URL', controller: imageUrlController),
-                _textField(
-                  label: 'Price',
-                  controller: priceController,
-                  isNumber: true,
-                ),
-                _textField(
-                  label: 'Rating',
-                  controller: ratingController,
-                  isNumber: true,
-                ),
-                _textField(
-                  label: 'Specifications (comma-separated)',
-                  controller: specController,
-                ),
+                _textField(label: 'Price', controller: priceController, isNumber: true),
+                _textField(label: 'Quantity', controller: quantityController, isNumber: true),
+                _textField(label: 'Specifications (comma-separated)', controller: specController),
                 _textField(label: 'Category', controller: categoryController),
-                Obx(
-                  () => SwitchListTile(
-                    title: const Text('In Stock'),
-                    value: inStock.value,
-                    onChanged: (value) => inStock.value = value,
-                  ),
-                ),
               ],
             ),
           ),
@@ -171,18 +154,17 @@ class _ProductManagementScreenState extends State<ProductManagementScreen> {
                   id: product?.id ?? adminController.generateProductId(),
                   name: nameController.text,
                   brandId: selectedBrandId,
-
                   description: descriptionController.text,
                   imageUrl: imageUrlController.text,
                   price: double.tryParse(priceController.text) ?? 0.0,
-                  rating: double.tryParse(ratingController.text) ?? 0.0,
-                  specifications:
-                      specController.text
-                          .split(',')
-                          .map((e) => e.trim())
-                          .toList(),
+                  specifications: specController.text
+                      .split(',')
+                      .map((e) => e.trim())
+                      .where((e) => e.isNotEmpty)
+                      .toList(),
+                  quantity: int.tryParse(quantityController.text) ?? 0,
+                  rating: product?.rating ?? 0.0,
                   reviews: product?.reviews ?? [],
-                  inStock: inStock.value,
                   category: categoryController.text,
                 );
 
