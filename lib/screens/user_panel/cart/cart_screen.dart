@@ -6,7 +6,7 @@ import 'package:laptops_harbour/models/product_model.dart';
 import 'package:laptops_harbour/utils/constants/app_constants.dart';
 
 class CartScreen extends StatelessWidget {
-  final CartController cartController = Get.find<CartController>();
+  final CartController cartController = Get.put(CartController());
   final TextEditingController couponController = TextEditingController();
   final List<ProductModel> products;
 
@@ -29,8 +29,43 @@ class CartScreen extends StatelessWidget {
       ),
       body: Obx(() {
         if (cartController.cartItems.isEmpty) {
-          return const Center(child: Text('Your cart is empty.'));
+          return Center(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Text(
+                  'Ready for a new view? Browse our laptops and find your perfect match.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 16),
+                ),
+                const SizedBox(height: 16),
+                ElevatedButton(
+                  onPressed: () {
+                    Get.toNamed(
+                      '/storescreenDrawer',
+                    ); // or whatever your store route is
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppConstants.primaryColor,
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 24,
+                      vertical: 12,
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                  child: const Text(
+                    'Go to Store',
+                    style: TextStyle(fontSize: 16),
+                  ),
+                ),
+              ],
+            ),
+          );
         }
+
         return Column(
           children: [
             Expanded(
@@ -69,16 +104,22 @@ class CartScreen extends StatelessWidget {
                             children: [
                               IconButton(
                                 icon: const Icon(Icons.remove_circle_outline),
-                                onPressed: item.quantity > 1
-                                    ? () => cartController.decreaseQuantity(item.productId)
-                                    : null,
+                                onPressed:
+                                    item.quantity > 1
+                                        ? () => cartController.decreaseQuantity(
+                                          item.productId,
+                                        )
+                                        : null,
                               ),
                               Text(item.quantity.toString()),
                               IconButton(
                                 icon: const Icon(Icons.add_circle_outline),
-                                onPressed: item.quantity < availableQty
-                                    ? () => cartController.increaseQuantity(item.productId)
-                                    : null,
+                                onPressed:
+                                    item.quantity < availableQty
+                                        ? () => cartController.increaseQuantity(
+                                          item.productId,
+                                        )
+                                        : null,
                               ),
                             ],
                           ),
@@ -162,6 +203,7 @@ class CartScreen extends StatelessWidget {
             ),
             child: const Text('Proceed to Checkout'),
           ),
+          SizedBox(height: 25),
         ],
       ),
     );
