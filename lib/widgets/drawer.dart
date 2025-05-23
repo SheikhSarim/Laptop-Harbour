@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:laptops_harbour/controllers/home_controller.dart';
 import 'package:laptops_harbour/screens/auth/logout.dart';
 import 'package:laptops_harbour/screens/user_panel/home.dart';
-import 'package:laptops_harbour/screens/user_panel/store/store.dart';
 import 'package:laptops_harbour/utils/constants/app_constants.dart';
 
 class DrawerWidget extends StatelessWidget {
@@ -57,13 +56,12 @@ class DrawerWidget extends StatelessWidget {
             _buildDrawerItem(
               icon: Icons.store,
               label: 'Store',
-              onTap: () => Get.offAll(() => Store()),
+              onTap: () => Get.toNamed('/storescreenDrawer'),
             ),
             _buildDrawerItem(
               icon: Icons.favorite_border,
               label: 'Wishlist',
-              onTap: () {}
-              // onTap: () => Get.offAll(() => Wishlist()),
+              onTap: () => Get.toNamed('/wishlistDrawer'),
             ),
             _buildDrawerItem(
               icon: Icons.person,
@@ -71,7 +69,11 @@ class DrawerWidget extends StatelessWidget {
               onTap: () {}
               // onTap: () => Get.offAll(() => Profile()),
             ),
-            
+            _buildDrawerItem(
+              icon: Icons.history,
+              label: 'Order History',
+              onTap: () => Get.toNamed('/order-history'),
+            ),
             const Divider(),
             _buildDrawerItem(
               icon: Icons.logout,
@@ -96,8 +98,8 @@ class DrawerWidget extends StatelessWidget {
         style: TextStyle(fontSize: 16, color: AppConstants.primaryTextColor),
       ),
       onTap: () {
-        Get.back(); 
-        onTap(); 
+        Get.back();
+        onTap();
       },
     );
   }

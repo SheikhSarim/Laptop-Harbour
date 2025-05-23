@@ -11,10 +11,15 @@ import 'package:laptops_harbour/screens/startup/onboarding.dart';
 import 'package:laptops_harbour/screens/startup/splash_screen.dart';
 import 'package:laptops_harbour/screens/user_panel/home.dart';
 import 'package:laptops_harbour/screens/user_panel/product/product_detals.dart';
+import 'package:laptops_harbour/screens/user_panel/search_screen.dart';
 import 'package:laptops_harbour/screens/user_panel/store/store.dart';
 import 'package:laptops_harbour/screens/user_panel/cart/cart_screen.dart';
 import 'package:laptops_harbour/screens/user_panel/store/store_screen.dart';
+import 'package:laptops_harbour/screens/user_panel/wishlist/wishlist.dart';
+import 'package:laptops_harbour/screens/user_panel/wishlist/wishlist_screen.dart';
+import 'package:laptops_harbour/screens/user_panel/order/order_history_screen.dart';
 import 'package:laptops_harbour/utils/constants/app_constants.dart';
+import 'screens/user_panel/cart/checkout_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -55,7 +60,14 @@ class LaptopHarbourApp extends StatelessWidget {
         GetPage(name: '/home', page: () => HomeScreen()),
         GetPage(name: '/admin', page: () => AdminDashboard()),
         GetPage(name: '/store', page: () => Store()),
-        GetPage(name: '/storescreen', page: () => StoreScreen()),
+        GetPage(name: '/searchscreen', page: () => SearchScreen()),
+        GetPage(name: '/wishlistscreen', page: () => WishlistScreen()),
+      
+        //cloned
+        GetPage(name: '/storescreenDrawer', page: () => StoreScreen()),
+        GetPage(name: '/wishlistDrawer', page: () => Wishlist()),
+
+
         GetPage(name: '/cart', page: () {
           final ProductController productController = Get.find<ProductController>();
           return CartScreen(products: productController.products);
@@ -72,10 +84,11 @@ class LaptopHarbourApp extends StatelessWidget {
         // Optionally, add a placeholder for checkout
         GetPage(
           name: '/checkout',
-          page: () => Scaffold(
-            appBar: AppBar(title: Text('Checkout')),
-            body: Center(child: Text('Checkout Screen')),
-          ),
+          page: () => CheckoutScreen(),
+        ),
+        GetPage(
+          name: '/order-history',
+          page: () => const OrderHistoryScreen(),
         ),
       ],
     );
