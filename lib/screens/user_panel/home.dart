@@ -4,19 +4,14 @@ import 'package:laptops_harbour/controllers/cart_controller.dart';
 import 'package:laptops_harbour/controllers/home_controller.dart';
 import 'package:laptops_harbour/controllers/product_controller.dart';
 import 'package:laptops_harbour/screens/user_panel/store/store.dart';
-import 'package:laptops_harbour/screens/user_panel/wishlist.dart';
+import 'package:laptops_harbour/screens/user_panel/wishlist/wishlist.dart';
 import 'package:laptops_harbour/utils/brand_card_carosuel.dart';
 import 'package:laptops_harbour/utils/constants/app_constants.dart';
 import 'package:laptops_harbour/widgets/bottom_nav_bar.dart';
 import 'package:laptops_harbour/widgets/carosuel_slider.dart';
 import 'package:laptops_harbour/widgets/drawer.dart';
 import 'package:laptops_harbour/widgets/product_card.dart';
-
-final List<String> images = [
-  'https://d1csarkz8obe9u.cloudfront.net/posterpreviews/laptop-sale-template-design-df4be79b4d18b6c7fdabde8ec7780bce_screen.jpg?ts=1720168468',
-  'https://t3.ftcdn.net/jpg/04/65/46/52/360_F_465465254_1pN9MGrA831idD6zIBL7q8rnZZpUCQTy.jpg',
-  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCPW1oZLDImt54gJ05-SLdBZISkljbXbHBow&s',
-];
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -42,7 +37,7 @@ class HomeScreen extends StatelessWidget {
           IconButton(
             icon: Icon(Icons.search, color: AppConstants.primaryIconColor),
             onPressed: () {
-              // Search();
+              Get.toNamed('/searchscreen');
             },
           ),
           IconButton(
@@ -111,117 +106,112 @@ class HomeScreen extends StatelessWidget {
 class _HomeTabContent extends StatelessWidget {
   const _HomeTabContent();
 
+  Future<List<String>> _fetchBannerImages() async {
+    final snapshot = await FirebaseFirestore.instance.collection('banners').get();
+    return snapshot.docs.map((doc) => doc['imageUrl'] as String).toList();
+  }
+
   @override
   Widget build(BuildContext context) {
     final ProductController productController = Get.put(ProductController());
-
-    final List<String> images = [
-      'https://d1csarkz8obe9u.cloudfront.net/posterpreviews/laptop-sale-template-design-df4be79b4d18b6c7fdabde8ec7780bce_screen.jpg?ts=1720168468',
-      'https://t3.ftcdn.net/jpg/04/65/46/52/360_F_465465254_1pN9MGrA831idD6zIBL7q8rnZZpUCQTy.jpg',
-      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCPW1oZLDImt54gJ05-SLdBZISkljbXbHBow&s',
-    ];
-
-    return SingleChildScrollView(
-      physics: BouncingScrollPhysics(),
-      padding: EdgeInsets.all(16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(height: 3),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16),
-            child: Text(
-              "Discover",
-              style: TextStyle(
-                fontSize: 30,
-                fontWeight: FontWeight.bold,
-                color: AppConstants.primaryTextColor,
-              ),
-            ),
-          ),
-          SizedBox(height: 20),
-          TextField(
-            decoration: InputDecoration(
-              hintText: 'Search',
-              prefixIcon: Icon(Icons.search),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12.0),
-                borderSide: BorderSide.none,
-              ),
-              filled: true,
-              fillColor: Colors.grey[200],
-              contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 16),
-            ),
-          ),
-          SizedBox(height: 20),
-          CarouselWidget(images: images),
-          SizedBox(height: 20),
-          BrandCardCarousel(),
-          SizedBox(height: 20),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return FutureBuilder<List<String>>(
+      future: _fetchBannerImages(),
+      builder: (context, snapshot) {
+        final images = snapshot.data ?? [];
+        return SingleChildScrollView(
+          physics: BouncingScrollPhysics(),
+          padding: EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                'Popular Products',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w900,
-                  color: Colors.black,
-                ),
-              ),
-              GestureDetector(
-                onTap: () {
-                  Get.toNamed('/storescreen');
-                },
+              SizedBox(height: 3),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16),
                 child: Text(
-                  'See all',
+                  "Discover",
                   style: TextStyle(
-                    fontSize: 16,
-                    color: Colors.blue,
-                    fontWeight: FontWeight.w600,
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                    color: AppConstants.primaryTextColor,
                   ),
                 ),
               ),
-            ],
-          ),
-          SizedBox(height: 10),
-
-          Divider(height: 1, color: Colors.grey[300]),
-          SizedBox(height: 10),
-          Obx(() {
-            if (productController.isLoading.value) {
-              return const Center(child: CircularProgressIndicator());
-            }
-            if (productController.products.isEmpty) {
-              return const Center(child: Text('No products found.'));
-            }
-
-            // Limit the products to a maximum of 6 for the home screen
-            final limitedProducts = productController.products.take(4).toList();
-
-            return GridView.builder(
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                crossAxisSpacing: 12,
-                mainAxisSpacing: 12,
-                childAspectRatio: 0.8,
+              SizedBox(height: 10),
+              if (snapshot.connectionState == ConnectionState.waiting)
+                const Center(child: CircularProgressIndicator())
+              else if (images.isNotEmpty)
+                CarouselWidget(images: images)
+              else
+                const SizedBox.shrink(),
+              SizedBox(height: 20),
+              BrandCardCarousel(),
+              SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Popular Products',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w900,
+                      color: Colors.black,
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Get.toNamed('/storescreenDrawer');
+                    },
+                    child: Text(
+                      'See all',
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.blue,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                ],
               ),
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: limitedProducts.length,
-              itemBuilder: (context, index) {
-                final product = limitedProducts[index];
-                return ProductCard(
-                  product: product,
-                  onTap: () {
-                    Get.toNamed('/productDetails/${product.id}');
+              SizedBox(height: 10),
+
+              Divider(height: 1, color: Colors.grey[300]),
+              SizedBox(height: 10),
+              Obx(() {
+                if (productController.isLoading.value) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+                if (productController.products.isEmpty) {
+                  return const Center(child: Text('No products found.'));
+                }
+
+                // Limit the products to a maximum of 6 for the home screen
+                final limitedProducts = productController.products.take(4).toList();
+
+                return GridView.builder(
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 12,
+                    mainAxisSpacing: 12,
+                    childAspectRatio: 0.8,
+                  ),
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: limitedProducts.length,
+                  itemBuilder: (context, index) {
+                    final product = limitedProducts[index];
+                    return ProductCard(
+                      product: product,
+                      onTap: () {
+                        Get.toNamed('/productDetails/${product.id}');
+                      },
+                    );
                   },
                 );
-              },
-            );
-          }),
-        ],
-      ),
+              }),
+            ],
+          ),
+        );
+      },
     );
   }
 }
