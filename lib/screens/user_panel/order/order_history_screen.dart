@@ -4,6 +4,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:laptops_harbour/models/order_model.dart';
 import 'package:laptops_harbour/utils/constants/app_constants.dart';
 import 'package:intl/intl.dart';
+import 'package:laptops_harbour/utils/notification_service.dart';
+import 'package:get/get.dart';
 
 class OrderHistoryScreen extends StatelessWidget {
   const OrderHistoryScreen({super.key});
@@ -32,10 +34,57 @@ class OrderHistoryScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final user = FirebaseAuth.instance.currentUser;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Order History'),
         backgroundColor: AppConstants.primaryColor,
+        actions: [
+          if (user != null)
+            FutureBuilder<int>(
+              future: NotificationService.getUnreadNotificationCount(user.uid),
+              builder: (context, snapshot) {
+                final count = snapshot.data ?? 0;
+                if (count == 0) return const SizedBox.shrink();
+                return Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    IconButton(
+                      icon: const Icon(
+                        Icons.notifications,
+                        color: AppConstants.appSecondaryColor,
+                      ),
+                      onPressed: () async {
+                        await NotificationService.markAllAsRead(user.uid);
+                        // Instead of navigating away and back, use setState or a callback to refresh
+                        // Since this is a StatelessWidget, use Get.forceAppUpdate() to force a rebuild
+                        Get.forceAppUpdate();
+                      },
+                    ),
+                    Positioned(
+                      right: 8,
+                      top: 8,
+                      child: Container(
+                        padding: const EdgeInsets.all(4),
+                        decoration: const BoxDecoration(
+                          color: AppConstants.appButtonColor,
+                          shape: BoxShape.circle,
+                        ),
+                        child: Text(
+                          '$count',
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                );
+              },
+            ),
+        ],
       ),
       body: FutureBuilder<List<OrderModel>>(
         future: _fetchOrders(),
