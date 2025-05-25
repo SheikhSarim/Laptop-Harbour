@@ -54,9 +54,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     SizedBox(
                       height: 8,
-                    ), // small space between title and subtext
+                    ), 
                     Text(
                       "Welcome back! Please enter your credentials",
+                      textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 16,
                         color: AppConstants.secondaryTextColor,
@@ -135,7 +136,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           Get.to(() => ForgetPasswordScreen());
                         },
                         child: Text(
-                          "Forget Password?",
+                          "Forgot Password?",
                           style: TextStyle(
                             color: AppConstants.primaryColor,
                             fontWeight: FontWeight.bold,
@@ -148,7 +149,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
                     Material(
                       child: Container(
-                        width: Get.width / 2,
+                        width: Get.width * 0.6,
                         height: Get.height / 18,
                         decoration: BoxDecoration(
                           color: AppConstants.appButtonColor,
@@ -204,7 +205,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     Material(
                       child: Obx(
                         () => Container(
-                          width: Get.width / 2,
+                          width: Get.width * 0.6,
                           height: Get.height / 18,
                           decoration: BoxDecoration(
                             color: AppConstants.appSecondaryColor,
@@ -234,6 +235,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     : Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
+                                      mainAxisSize: MainAxisSize.min,
                                       children: [
                                         Image.asset(
                                           'assets/images/final-google-logo.png',
@@ -241,12 +243,16 @@ class _LoginScreenState extends State<LoginScreen> {
                                           width: 24,
                                         ),
                                         SizedBox(width: 10),
-                                        Text(
-                                          "Continue with Google",
-                                          style: TextStyle(
-                                            color:
-                                                AppConstants.primaryTextColor,
-                                            fontWeight: FontWeight.bold,
+                                        Flexible(
+                                          child: Text(
+                                            "Continue with Google",
+                                            style: TextStyle(
+                                              color:
+                                                  AppConstants.primaryTextColor,
+                                              fontWeight: FontWeight.bold,
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                            maxLines: 1,
                                           ),
                                         ),
                                       ],
