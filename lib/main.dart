@@ -5,12 +5,15 @@ import 'package:laptops_harbour/controllers/cart_controller.dart';
 import 'package:laptops_harbour/controllers/product_controller.dart';
 import 'package:laptops_harbour/firebase_options.dart';
 import 'package:laptops_harbour/screens/admin-panel/admin_dashboard.dart';
+import 'package:laptops_harbour/screens/admin-panel/admin_user_orders_screen.dart';
+import 'package:laptops_harbour/screens/admin-panel/user_detail_screen.dart';
 import 'package:laptops_harbour/screens/auth/login_screen.dart';
 import 'package:laptops_harbour/screens/auth/sign_up_screen.dart';
 import 'package:laptops_harbour/screens/startup/onboarding.dart';
 import 'package:laptops_harbour/screens/startup/splash_screen.dart';
 import 'package:laptops_harbour/screens/user_panel/home.dart';
 import 'package:laptops_harbour/screens/user_panel/product/product_detals.dart';
+import 'package:laptops_harbour/screens/user_panel/profile/reset_password.dart';
 import 'package:laptops_harbour/screens/user_panel/search_screen.dart';
 import 'package:laptops_harbour/screens/user_panel/store/store.dart';
 import 'package:laptops_harbour/screens/user_panel/cart/cart_screen.dart';
@@ -20,6 +23,11 @@ import 'package:laptops_harbour/screens/user_panel/wishlist/wishlist_screen.dart
 import 'package:laptops_harbour/screens/user_panel/order/order_history_screen.dart';
 import 'package:laptops_harbour/utils/constants/app_constants.dart';
 import 'screens/user_panel/cart/checkout_screen.dart';
+import 'package:laptops_harbour/screens/admin-panel/banners.dart';
+import 'screens/user_panel/profile/edit_profile_screen.dart';
+import 'screens/user_panel/profile/notifications_screen.dart';
+import 'screens/user_panel/profile/terms_and_conditions_screen.dart';
+import 'screens/user_panel/profile/privacy_policy_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -89,6 +97,38 @@ class LaptopHarbourApp extends StatelessWidget {
         GetPage(
           name: '/order-history',
           page: () => const OrderHistoryScreen(),
+        ),
+        GetPage(
+          name: '/admin_user_orders',
+          page: () => const AdminUserOrdersScreen(),
+        ),
+        GetPage(
+          name: '/user_detail',
+          page: () => const UserDetailScreen(),
+        ),
+        GetPage(
+          name: '/admin-banners',
+          page: () => const BannersScreen(),
+        ),
+        GetPage(
+          name: '/reset-password',
+          page: () => ResetPasswordScreen(),
+        ),
+        GetPage(
+          name: '/edit-profile',
+          page: () => const EditProfileScreen(),
+        ),
+        GetPage(
+          name: '/notifications',
+          page: () => const NotificationsScreen(),
+        ),
+        GetPage(
+          name: '/terms-and-conditions',
+          page: () => const TermsAndConditionsScreen(),
+        ),
+        GetPage(
+          name: '/privacy-policy',
+          page: () => const PrivacyPolicyScreen(),
         ),
       ],
     );
