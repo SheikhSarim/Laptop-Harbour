@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:laptops_harbour/controllers/cart_controller.dart';
 import 'package:laptops_harbour/models/order_model.dart';
+import 'package:laptops_harbour/utils/email_service.dart';
 
 class CheckoutController extends GetxController {
   final CartController cartController = Get.put(CartController());
@@ -64,6 +65,13 @@ class CheckoutController extends GetxController {
       await FirebaseFirestore.instance.collection('users').doc(user.uid).set({
         'deliveryAddress': address.trim(),
       }, SetOptions(merge: true));
+      // Send order confirmation email (learning/demo only)
+      await EmailService.sendOrderConfirmation(
+        toEmail: user.email ?? '',
+        userName: user.displayName ?? 'Customer',
+        orderId: orderId,
+        totalAmount: totalAmount,
+      );
       // Clear cart
       cartController.clearCart();
       isLoading.value = false;
