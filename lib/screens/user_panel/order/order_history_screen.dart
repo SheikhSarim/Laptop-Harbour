@@ -37,8 +37,13 @@ class OrderHistoryScreen extends StatelessWidget {
     final user = FirebaseAuth.instance.currentUser;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Order History'),
-        backgroundColor: AppConstants.primaryColor,
+        title: const Text(
+          'Order History',
+          style: TextStyle(color: Colors.black),
+        ),
+        backgroundColor: AppConstants.backgroundColor,
+        iconTheme: const IconThemeData(color: Colors.black),
+        elevation: 0,
         actions: [
           if (user != null)
             FutureBuilder<int>(
@@ -52,7 +57,7 @@ class OrderHistoryScreen extends StatelessWidget {
                     IconButton(
                       icon: const Icon(
                         Icons.notifications,
-                        color: AppConstants.appSecondaryColor,
+                        color: AppConstants.primaryIconColor,
                       ),
                       onPressed: () async {
                         await NotificationService.markAllAsRead(user.uid);
@@ -67,7 +72,7 @@ class OrderHistoryScreen extends StatelessWidget {
                       child: Container(
                         padding: const EdgeInsets.all(4),
                         decoration: const BoxDecoration(
-                          color: AppConstants.appButtonColor,
+                          color: AppConstants.primaryColor,
                           shape: BoxShape.circle,
                         ),
                         child: Text(
