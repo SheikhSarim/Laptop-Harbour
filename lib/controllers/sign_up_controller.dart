@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:laptops_harbour/models/user_model.dart';
-import 'package:laptops_harbour/screens/auth/login_screen.dart';
+
 
 class SignUpController extends GetxController {
   var isPasswordVisible = false.obs;
@@ -112,7 +112,6 @@ class SignUpController extends GetxController {
         createdOn: DateTime.now(),
       );
 
-
       // Save user model to Firestore
       await newUser.saveUserToFirestore();
 
@@ -124,7 +123,7 @@ class SignUpController extends GetxController {
       );
 
       // Redirect to Login Screen
-      Get.offAll(() => LoginScreen());
+      Get.toNamed('/login');
     } on FirebaseAuthException catch (e) {
       // Handle Firebase Auth exceptions
       if (e.code == 'weak-password') {

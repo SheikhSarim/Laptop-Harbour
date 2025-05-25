@@ -1,8 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:laptops_harbour/screens/auth/login_screen.dart';
 import 'package:laptops_harbour/utils/constants/app_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -170,7 +168,7 @@ class _OnboardingScreensState extends State<OnboardingScreens> {
                       ),
                       onPressed: () {
                         // Temporarily navigate to LoginScreen directly
-                        Get.offAll(() => LoginScreen());
+                        Get.toNamed('/login');
                       },
                       child: Text(
                         "Let’s Get Started →",

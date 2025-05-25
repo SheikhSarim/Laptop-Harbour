@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:get/get.dart';
 import 'package:laptops_harbour/controllers/sign_up_controller.dart';
-import 'package:laptops_harbour/screens/auth/login_screen.dart';
+
 import 'package:laptops_harbour/utils/constants/app_constants.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -23,14 +23,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         return Scaffold(
           appBar: AppBar(
             backgroundColor: AppConstants.appBackgroundColor,
-            // centerTitle: true,
-            // title: Text(
-            //   "Sign Up",
-            //   style: TextStyle(
-            //     color: AppConstants.invertTextColor,
-            //     fontWeight: FontWeight.bold,
-            //   ),
-            // ),
+          
             automaticallyImplyLeading: false,
           ),
           body: SingleChildScrollView(
@@ -41,7 +34,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    SizedBox(height: isKeyboardVisible ? 50 : Get.height / 10),
+                    SizedBox(height: isKeyboardVisible ? 50 : Get.height / 15),
                     Text(
                       "Create Account",
                       style: TextStyle(
@@ -251,7 +244,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ),
                         GestureDetector(
                           onTap: () {
-                            Get.offAll(() => LoginScreen());
+                            Get.toNamed('/login');
                           },
                           child: Text(
                             "Login",

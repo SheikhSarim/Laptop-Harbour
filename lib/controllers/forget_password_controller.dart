@@ -1,8 +1,7 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
-import 'package:laptops_harbour/screens/auth/login_screen.dart';
+
 import 'package:laptops_harbour/utils/constants/app_constants.dart';
 
 class ForgetPasswordController extends GetxController {
@@ -19,7 +18,7 @@ class ForgetPasswordController extends GetxController {
         backgroundColor: AppConstants.appSecondaryColor,
         colorText: AppConstants.appSecondaryColor,
       );
-      Get.offAll(() => LoginScreen());
+      Get.toNamed('/login');
     } on FirebaseAuthException catch (e) {
       Get.snackbar(
         "Error",
