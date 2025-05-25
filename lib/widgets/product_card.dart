@@ -9,8 +9,12 @@ class ProductCard extends StatefulWidget {
   final Function onTap;
   final VoidCallback? onFavoriteToggle;
 
-  const ProductCard({Key? key, required this.product, required this.onTap, this.onFavoriteToggle})
-    : super(key: key);
+  const ProductCard({
+    super.key,
+    required this.product,
+    required this.onTap,
+    this.onFavoriteToggle,
+  });
 
   @override
   _ProductCardState createState() => _ProductCardState();
@@ -45,12 +49,15 @@ class _ProductCardState extends State<ProductCard> {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+
     return GestureDetector(
       onTap: () => widget.onTap(),
       child: Stack(
         children: [
           Container(
-            padding: EdgeInsets.all(8),
+            padding: EdgeInsets.all(screenWidth * 0.02), // Responsive padding
             decoration: BoxDecoration(
               color: AppConstants.cardColor,
               borderRadius: BorderRadius.circular(12),
@@ -69,8 +76,7 @@ class _ProductCardState extends State<ProductCard> {
                 // Product Image
                 SizedBox(
                   width: double.infinity,
-                  height: 130,
-                  
+                  height: screenHeight * 0.15, // Responsive height
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(12),
                     child: Image.network(
@@ -79,39 +85,44 @@ class _ProductCardState extends State<ProductCard> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 20),
+                SizedBox(height: screenHeight * 0.015),
                 // Product Name
                 Text(
                   widget.product.name,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                   style: TextStyle(
-                    fontSize: 16,
+                    fontSize: screenWidth * 0.04, // Responsive font size
                     fontWeight: FontWeight.bold,
                     color: Colors.black,
                   ),
                 ),
-                const SizedBox(height: 8),
+                SizedBox(height: screenHeight * 0.008),
                 Row(
-                  mainAxisAlignment:
-                      MainAxisAlignment.spaceBetween, // Or use start if needed
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     // Product Price
                     Text(
-                       '\$${NumberFormat("#,##0.00", "en_US").format(widget.product.price)}',
+                      '\$${NumberFormat("#,##0.00", "en_US").format(widget.product.price)}',
                       style: TextStyle(
-                        fontSize: 14,
+                        fontSize: screenWidth * 0.035,
                         fontWeight: FontWeight.w500,
-                        color: AppConstants.priceGreen,
+                        color: AppConstants.priceBlue,
                       ),
                     ),
                     // Rating
                     Row(
                       children: [
-                        Icon(Icons.star, size: 16, color: Colors.amber),
-                        const SizedBox(width: 4),
+                        Icon(
+                          Icons.star,
+                          size: screenWidth * 0.035,
+                          color: Colors.amber,
+                        ),
+                        SizedBox(width: screenWidth * 0.01),
                         Text(
                           widget.product.rating.toString(),
                           style: TextStyle(
-                            fontSize: 14,
+                            fontSize: screenWidth * 0.035,
                             fontWeight: FontWeight.w500,
                           ),
                         ),
@@ -129,7 +140,7 @@ class _ProductCardState extends State<ProductCard> {
             child: GestureDetector(
               onTap: _toggleFavorite,
               child: Container(
-                padding: EdgeInsets.all(6),
+                padding: EdgeInsets.all(screenWidth * 0.015),
                 decoration: BoxDecoration(
                   color: AppConstants.surfaceColor,
                   shape: BoxShape.circle,
@@ -137,7 +148,7 @@ class _ProductCardState extends State<ProductCard> {
                 child: Icon(
                   isFavorite ? Icons.favorite : Icons.favorite_border,
                   color: isFavorite ? Colors.red : Colors.grey,
-                  size: 20,
+                  size: screenWidth * 0.05,
                 ),
               ),
             ),
@@ -148,7 +159,10 @@ class _ProductCardState extends State<ProductCard> {
               top: 8,
               right: 8,
               child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                padding: EdgeInsets.symmetric(
+                  horizontal: screenWidth * 0.025,
+                  vertical: screenHeight * 0.005,
+                ),
                 decoration: BoxDecoration(
                   color: Colors.redAccent,
                   borderRadius: BorderRadius.circular(8),
@@ -158,7 +172,7 @@ class _ProductCardState extends State<ProductCard> {
                   style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
-                    fontSize: 12,
+                    fontSize: screenWidth * 0.03,
                   ),
                 ),
               ),
