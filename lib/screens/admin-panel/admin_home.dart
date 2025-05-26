@@ -92,21 +92,27 @@ class _AdminHomeState extends State<AdminHome> {
                     ),
                   ),
                 ),
-                // const SizedBox(height: 12),
-                // Container(
-                //   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
-                //   decoration: BoxDecoration(
-                //     color: AppConstants.surfaceColor,
-                //     borderRadius: BorderRadius.circular(12),
-                //   ),
-                //   child: Row(
-                //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //     children: const [
-                //       Text('Coupons', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-                //       Icon(Icons.chevron_right),
-                //     ],
-                //   ),
-                // ),
+                const SizedBox(height: 16),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
+                  decoration: BoxDecoration(
+                    color: AppConstants.surfaceColor,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(12),
+                    onTap: () {
+                      Get.toNamed('/users-feedback');
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: const [
+                        Text('Users Feedback', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                        Icon(Icons.chevron_right),
+                      ],
+                    ),
+                  ),
+                ),
               ],
             ),
     );

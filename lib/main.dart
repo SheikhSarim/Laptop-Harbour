@@ -7,12 +7,14 @@ import 'package:laptops_harbour/firebase_options.dart';
 import 'package:laptops_harbour/screens/admin-panel/admin_dashboard.dart';
 import 'package:laptops_harbour/screens/admin-panel/admin_user_orders_screen.dart';
 import 'package:laptops_harbour/screens/admin-panel/user_detail_screen.dart';
+import 'package:laptops_harbour/screens/admin-panel/user_feedback.dart';
 import 'package:laptops_harbour/screens/auth/login_screen.dart';
 import 'package:laptops_harbour/screens/auth/sign_up_screen.dart';
 import 'package:laptops_harbour/screens/startup/onboarding.dart';
 import 'package:laptops_harbour/screens/startup/splash_screen.dart';
 import 'package:laptops_harbour/screens/user_panel/home.dart';
 import 'package:laptops_harbour/screens/user_panel/product/product_detals.dart';
+import 'package:laptops_harbour/screens/user_panel/profile/feedback_screen.dart';
 import 'package:laptops_harbour/screens/user_panel/profile/reset_password.dart';
 import 'package:laptops_harbour/screens/user_panel/search_screen.dart';
 import 'package:laptops_harbour/screens/user_panel/store/store.dart';
@@ -98,21 +100,14 @@ class LaptopHarbourApp extends StatelessWidget {
           name: '/order-history',
           page: () => const OrderHistoryScreen(),
         ),
-        GetPage(
-          name: '/admin_user_orders',
-          page: () => const AdminUserOrdersScreen(),
-        ),
-        GetPage(
-          name: '/user_detail',
-          page: () => const UserDetailScreen(),
-        ),
-        GetPage(
-          name: '/admin-banners',
-          page: () => const BannersScreen(),
-        ),
+        
         GetPage(
           name: '/reset-password',
           page: () => ResetPasswordScreen(),
+        ),
+         GetPage(
+          name: '/feedback',
+          page: () => FeedbackScreen(),
         ),
         GetPage(
           name: '/edit-profile',
@@ -130,6 +125,26 @@ class LaptopHarbourApp extends StatelessWidget {
           name: '/privacy-policy',
           page: () => const PrivacyPolicyScreen(),
         ),
+
+        //admin-routes
+        GetPage(
+          name: '/admin_user_orders',
+          page: () => const AdminUserOrdersScreen(),
+        ),
+        GetPage(
+          name: '/user_detail',
+          page: () => const UserDetailScreen(),
+        ),
+        GetPage(
+          name: '/admin-banners',
+          page: () => const BannersScreen(),
+        ),
+         GetPage(
+          name: '/users-feedback',
+          page: () => UserFeedbackScreen(),
+        ),
+      
+      
       ],
     );
   }
