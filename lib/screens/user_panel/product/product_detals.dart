@@ -88,7 +88,7 @@ class _ProductDetailsState extends State<ProductDetails> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
+              SizedBox(
                 height: 380,
                 width: double.infinity,
                 child: Stack(
@@ -115,11 +115,14 @@ class _ProductDetailsState extends State<ProductDetails> {
               ),
               const SizedBox(height: 16),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    product.name,
-                    style: Theme.of(context).textTheme.headlineSmall,
+                  Expanded(
+                    child: Text(
+                      product.name,
+                      style: Theme.of(context).textTheme.headlineSmall,
+                      maxLines: 2, // Allow max 2 lines (or more if you want)
+                      overflow: TextOverflow.ellipsis, // Adds ... if overflow
+                    ),
                   ),
                   IconButton(
                     icon: Icon(
@@ -130,6 +133,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                   ),
                 ],
               ),
+
               const SizedBox(height: 8),
               Row(
                 children: [

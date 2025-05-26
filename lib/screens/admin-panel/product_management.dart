@@ -5,7 +5,7 @@ import 'package:laptops_harbour/models/product_model.dart';
 import 'package:laptops_harbour/utils/constants/app_constants.dart';
 
 class ProductManagementScreen extends StatefulWidget {
-  const ProductManagementScreen({Key? key}) : super(key: key);
+  const ProductManagementScreen({super.key});
 
   @override
   _ProductManagementScreenState createState() => _ProductManagementScreenState();

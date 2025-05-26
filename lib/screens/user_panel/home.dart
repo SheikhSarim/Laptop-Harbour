@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:laptops_harbour/controllers/cart_controller.dart';
 import 'package:laptops_harbour/controllers/home_controller.dart';
 import 'package:laptops_harbour/controllers/product_controller.dart';
+import 'package:laptops_harbour/screens/user_panel/profile/profile_screen.dart';
 import 'package:laptops_harbour/screens/user_panel/store/store.dart';
 import 'package:laptops_harbour/screens/user_panel/wishlist/wishlist.dart';
 import 'package:laptops_harbour/utils/brand_card_carosuel.dart';
@@ -91,9 +92,9 @@ class HomeScreen extends StatelessWidget {
           case 1:
             return Store();
           case 2:
-          return WishlistScreen();
+            return WishlistScreen();
           case 3:
-          // return const ProfileScreen();
+            return ProfileScreen();
           default:
             return const _HomeTabContent();
         }
@@ -107,7 +108,8 @@ class _HomeTabContent extends StatelessWidget {
   const _HomeTabContent();
 
   Future<List<String>> _fetchBannerImages() async {
-    final snapshot = await FirebaseFirestore.instance.collection('banners').get();
+    final snapshot =
+        await FirebaseFirestore.instance.collection('banners').get();
     return snapshot.docs.map((doc) => doc['imageUrl'] as String).toList();
   }
 
@@ -185,7 +187,8 @@ class _HomeTabContent extends StatelessWidget {
                 }
 
                 // Limit the products to a maximum of 6 for the home screen
-                final limitedProducts = productController.products.take(4).toList();
+                final limitedProducts =
+                    productController.products.take(4).toList();
 
                 return GridView.builder(
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(

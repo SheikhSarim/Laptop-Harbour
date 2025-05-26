@@ -173,6 +173,13 @@ class ProfileScreen extends StatelessWidget {
                           Get.toNamed('/notifications');
                         },
                       ),
+                       _ProfileOption(
+                        icon: Icons.notifications,
+                        label: 'Feedback',
+                        onTap: () {
+                          Get.toNamed('/feedback');
+                        },
+                      ),
                     ],
                   ),
                 ),

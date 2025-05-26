@@ -4,7 +4,7 @@ import 'package:laptops_harbour/controllers/brand_controller.dart';
 import 'package:laptops_harbour/widgets/brand_card_widget.dart';
 
 class BrandCardCarousel extends StatelessWidget {
-  const BrandCardCarousel({Key? key}) : super(key: key);
+  const BrandCardCarousel({super.key});
 
   @override
   Widget build(BuildContext context) {

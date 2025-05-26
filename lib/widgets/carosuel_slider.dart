@@ -5,7 +5,7 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class CarouselWidget extends StatefulWidget {
   final List<String> images;
-  const CarouselWidget({Key? key, required this.images}) : super(key: key);
+  const CarouselWidget({super.key, required this.images});
 
   @override
   State<CarouselWidget> createState() => _CarouselWidgetState();
