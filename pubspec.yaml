@@ -44,9 +44,11 @@ dependencies:
   cloud_firestore: ^5.6.7
   google_sign_in: ^6.3.0
   smooth_page_indicator: ^1.2.1
-  flutter_map: ^8.1.1
-  latlong2: ^0.9.1
   package_info_plus: ^8.3.0
+  http: ^1.4.0
+  path_provider: ^2.1.5
+  intl: ^0.20.2
+  mailer: ^6.4.1
 
 dev_dependencies:
   flutter_test:
