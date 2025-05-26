@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:laptops_harbour/controllers/search_controller.dart' as custom_search;
+import 'package:laptops_harbour/controllers/search_controller.dart'
+    as custom_search;
 import 'package:laptops_harbour/utils/constants/app_constants.dart';
 import 'package:laptops_harbour/widgets/product_card.dart';
 
@@ -22,7 +23,7 @@ class StoreScreen extends StatelessWidget {
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: AppConstants.primaryIconColor),
           onPressed: () {
-            Get.back(); 
+            Get.back();
           },
         ),
         automaticallyImplyLeading: true,
@@ -42,7 +43,7 @@ class StoreScreen extends StatelessWidget {
               TextField(
                 controller: searchTextController,
                 decoration: InputDecoration(
-                  hintText: 'Search by product name...',
+                  hintText: 'Search laptops by name (e.g. MacBook, Asus)',
                   suffixIcon: IconButton(
                     icon: const Icon(Icons.search),
                     onPressed: () {
@@ -67,20 +68,31 @@ class StoreScreen extends StatelessWidget {
                   children: [
                     _CategoryChip(
                       label: 'All',
+                      chipColor: AppConstants.appStatusBarColor,
+                      textColor: AppConstants.invertTextColor,
                       onTap: () {
-                        Future.microtask(() => searchController.fetchAllProducts());
+                        Future.microtask(
+                          () => searchController.fetchAllProducts(),
+                        );
                       },
                     ),
                     _CategoryChip(
                       label: 'Gaming',
+                      chipColor: AppConstants.appStatusBarColor,
+                      textColor: AppConstants.invertTextColor,
                       onTap: () => searchController.filterByCategory('Gaming'),
                     ),
                     _CategoryChip(
                       label: 'Business',
-                      onTap: () => searchController.filterByCategory('Business'),
+                      chipColor: AppConstants.appStatusBarColor,
+                      textColor: AppConstants.invertTextColor,
+                      onTap:
+                          () => searchController.filterByCategory('Business'),
                     ),
                     _CategoryChip(
                       label: 'Student',
+                      chipColor: AppConstants.appStatusBarColor,
+                      textColor: AppConstants.invertTextColor,
                       onTap: () => searchController.filterByCategory('Student'),
                     ),
                   ],
@@ -96,12 +108,13 @@ class StoreScreen extends StatelessWidget {
                     return const Center(child: Text('No products found.'));
                   }
                   return GridView.builder(
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      crossAxisSpacing: 12,
-                      mainAxisSpacing: 12,
-                      childAspectRatio: 0.8,
-                    ),
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          crossAxisSpacing: 12,
+                          mainAxisSpacing: 12,
+                          childAspectRatio: 0.8,
+                        ),
                     itemCount: searchController.searchResults.length,
                     itemBuilder: (context, index) {
                       final product = searchController.searchResults[index];
@@ -126,13 +139,25 @@ class StoreScreen extends StatelessWidget {
 class _CategoryChip extends StatelessWidget {
   final String label;
   final VoidCallback onTap;
-  const _CategoryChip({required this.label, required this.onTap});
+  final Color chipColor;
+  final Color textColor;
+
+  const _CategoryChip({
+    required this.label,
+    required this.onTap,
+    this.chipColor = AppConstants.appButtonColor,
+    this.textColor = AppConstants.invertTextColor,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(right: 8.0),
-      child: ActionChip(label: Text(label), onPressed: onTap),
+      child: ActionChip(
+        label: Text(label, style: TextStyle(color: textColor)),
+        backgroundColor: chipColor,
+        onPressed: onTap,
+      ),
     );
   }
 }

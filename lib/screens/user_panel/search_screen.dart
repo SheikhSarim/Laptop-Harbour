@@ -5,8 +5,6 @@ import 'package:laptops_harbour/widgets/product_card.dart';
 import 'package:laptops_harbour/controllers/search_controller.dart'
     as custom_search;
 
-
-
 class SearchScreen extends StatelessWidget {
   final custom_search.SearchController searchController = Get.put(
     custom_search.SearchController(),
@@ -45,7 +43,7 @@ class SearchScreen extends StatelessWidget {
               TextField(
                 controller: searchTextController,
                 decoration: InputDecoration(
-                  hintText: 'Search by product name...',
+                  hintText: 'Search laptops by name (e.g. MacBook, Asus)',
                   suffixIcon: IconButton(
                     icon: const Icon(Icons.search),
                     onPressed: () {
@@ -71,21 +69,31 @@ class SearchScreen extends StatelessWidget {
                   children: [
                     _CategoryChip(
                       label: 'All',
+                      chipColor: AppConstants.appStatusBarColor,
+                      textColor: AppConstants.invertTextColor,
                       onTap: () {
-                        Future.microtask(() => searchController.fetchAllProducts());
+                        Future.microtask(
+                          () => searchController.fetchAllProducts(),
+                        );
                       },
                     ),
                     _CategoryChip(
                       label: 'Gaming',
+                      chipColor: AppConstants.appStatusBarColor,
+                      textColor: AppConstants.invertTextColor,
                       onTap: () => searchController.filterByCategory('Gaming'),
                     ),
                     _CategoryChip(
                       label: 'Business',
+                      chipColor: AppConstants.appStatusBarColor,
+                      textColor: AppConstants.invertTextColor,
                       onTap:
                           () => searchController.filterByCategory('Business'),
                     ),
                     _CategoryChip(
                       label: 'Student',
+                      chipColor: AppConstants.appStatusBarColor,
+                      textColor: AppConstants.invertTextColor,
                       onTap: () => searchController.filterByCategory('Student'),
                     ),
                     // Add more categories as needed
@@ -133,13 +141,25 @@ class SearchScreen extends StatelessWidget {
 class _CategoryChip extends StatelessWidget {
   final String label;
   final VoidCallback onTap;
-  const _CategoryChip({required this.label, required this.onTap});
+  final Color chipColor;
+  final Color textColor;
+
+  const _CategoryChip({
+    required this.label,
+    required this.onTap,
+    this.chipColor = AppConstants.appButtonColor,
+    this.textColor = AppConstants.invertTextColor,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(right: 8.0),
-      child: ActionChip(label: Text(label), onPressed: onTap),
+      child: ActionChip(
+        label: Text(label, style: TextStyle(color: textColor)),
+        backgroundColor: chipColor,
+        onPressed: onTap,
+      ),
     );
   }
 }

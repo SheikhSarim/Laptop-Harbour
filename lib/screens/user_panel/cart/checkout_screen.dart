@@ -121,8 +121,13 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
           onPressed: () => Get.back(),
         ),
         centerTitle: true,
-        title: const Text('Checkout'),
-        backgroundColor: AppConstants.primaryColor,
+         title: const Text(
+          'Checkout',
+          style: TextStyle(color: Colors.black),
+        ),
+        backgroundColor: AppConstants.backgroundColor,
+        iconTheme: const IconThemeData(color: Colors.black),
+        elevation: 0,
       ),
       body: Obx(() => checkoutController.isLoading.value
           ? const Center(child: CircularProgressIndicator())
