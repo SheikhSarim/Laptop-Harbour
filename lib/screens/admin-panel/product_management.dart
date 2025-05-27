@@ -8,7 +8,8 @@ class ProductManagementScreen extends StatefulWidget {
   const ProductManagementScreen({super.key});
 
   @override
-  _ProductManagementScreenState createState() => _ProductManagementScreenState();
+  _ProductManagementScreenState createState() =>
+      _ProductManagementScreenState();
 }
 
 class _ProductManagementScreenState extends State<ProductManagementScreen> {
@@ -55,11 +56,13 @@ class _ProductManagementScreenState extends State<ProductManagementScreen> {
                       children: [
                         IconButton(
                           icon: const Icon(Icons.edit, color: Colors.blue),
-                          onPressed: () => _showProductForm(context, product: product),
+                          onPressed:
+                              () => _showProductForm(context, product: product),
                         ),
                         IconButton(
                           icon: const Icon(Icons.delete, color: Colors.red),
-                          onPressed: () => adminController.deleteProduct(product.id),
+                          onPressed:
+                              () => adminController.deleteProduct(product.id),
                         ),
                       ],
                     ),
@@ -69,7 +72,10 @@ class _ProductManagementScreenState extends State<ProductManagementScreen> {
                       right: 8,
                       top: 8,
                       child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 4,
+                        ),
                         decoration: BoxDecoration(
                           color: Colors.red,
                           borderRadius: BorderRadius.circular(12),
@@ -97,13 +103,21 @@ class _ProductManagementScreenState extends State<ProductManagementScreen> {
 
   void _showProductForm(BuildContext context, {ProductModel? product}) {
     final nameController = TextEditingController(text: product?.name ?? '');
-    final descriptionController = TextEditingController(text: product?.description ?? '');
-    final imageUrlController = TextEditingController(text: product?.imageUrl ?? '');
-    final priceController = TextEditingController(text: product?.price.toString() ?? '');
+    final descriptionController = TextEditingController(
+      text: product?.description ?? '',
+    );
+    final imageUrlController = TextEditingController(
+      text: product?.imageUrl ?? '',
+    );
+    final priceController = TextEditingController(
+      text: product?.price.toString() ?? '',
+    );
     final specController = TextEditingController(
       text: product?.specifications.join(', ') ?? '',
     );
-    final categoryController = TextEditingController(text: product?.category ?? '');
+    final categoryController = TextEditingController(
+      text: product?.category ?? '',
+    );
     final quantityController = TextEditingController(
       text: product != null ? product.quantity.toString() : '',
     );
@@ -127,22 +141,38 @@ class _ProductManagementScreenState extends State<ProductManagementScreen> {
                   return DropdownButtonFormField<String>(
                     value: selectedBrandId.isNotEmpty ? selectedBrandId : null,
                     decoration: const InputDecoration(labelText: 'Brand'),
-                    items: brands.map((brand) {
-                      return DropdownMenuItem<String>(
-                        value: brand.id,
-                        child: Text(brand.name),
-                      );
-                    }).toList(),
+                    dropdownColor: AppConstants.surfaceColor,
+                    items:
+                        brands.map((brand) {
+                          return DropdownMenuItem<String>(
+                            value: brand.id,
+                            child: Text(brand.name),
+                          );
+                        }).toList(),
                     onChanged: (value) {
                       selectedBrandId = value!;
                     },
                   );
                 }),
-                _textField(label: 'Description', controller: descriptionController),
+                _textField(
+                  label: 'Description',
+                  controller: descriptionController,
+                ),
                 _textField(label: 'Image URL', controller: imageUrlController),
-                _textField(label: 'Price', controller: priceController, isNumber: true),
-                _textField(label: 'Quantity', controller: quantityController, isNumber: true),
-                _textField(label: 'Specifications (comma-separated)', controller: specController),
+                _textField(
+                  label: 'Price',
+                  controller: priceController,
+                  isNumber: true,
+                ),
+                _textField(
+                  label: 'Quantity',
+                  controller: quantityController,
+                  isNumber: true,
+                ),
+                _textField(
+                  label: 'Specifications (comma-separated)',
+                  controller: specController,
+                ),
                 _textField(label: 'Category', controller: categoryController),
               ],
             ),
@@ -157,11 +187,12 @@ class _ProductManagementScreenState extends State<ProductManagementScreen> {
                   description: descriptionController.text,
                   imageUrl: imageUrlController.text,
                   price: double.tryParse(priceController.text) ?? 0.0,
-                  specifications: specController.text
-                      .split(',')
-                      .map((e) => e.trim())
-                      .where((e) => e.isNotEmpty)
-                      .toList(),
+                  specifications:
+                      specController.text
+                          .split(',')
+                          .map((e) => e.trim())
+                          .where((e) => e.isNotEmpty)
+                          .toList(),
                   quantity: int.tryParse(quantityController.text) ?? 0,
                   rating: product?.rating ?? 0.0,
                   reviews: product?.reviews ?? [],
@@ -176,11 +207,17 @@ class _ProductManagementScreenState extends State<ProductManagementScreen> {
 
                 Get.back();
               },
-              child: const Text('Save'),
+              child: const Text(
+                'Save',
+                style: TextStyle(color: AppConstants.primaryColor),
+              ),
             ),
             TextButton(
               onPressed: () => Get.back(),
-              child: const Text('Cancel'),
+              child: const Text(
+                'Cancel',
+                style: TextStyle(color: AppConstants.accentDarkGrey),
+              ),
             ),
           ],
         );

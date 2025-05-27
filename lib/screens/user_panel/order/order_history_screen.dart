@@ -45,50 +45,65 @@ class OrderHistoryScreen extends StatelessWidget {
         iconTheme: const IconThemeData(color: Colors.black),
         elevation: 0,
         actions: [
-          if (user != null)
-            FutureBuilder<int>(
-              future: NotificationService.getUnreadNotificationCount(user.uid),
-              builder: (context, snapshot) {
-                final count = snapshot.data ?? 0;
-                if (count == 0) return const SizedBox.shrink();
-                return Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    IconButton(
-                      icon: const Icon(
-                        Icons.notifications,
-                        color: AppConstants.primaryIconColor,
-                      ),
-                      onPressed: () async {
-                        await NotificationService.markAllAsRead(user.uid);
-                        // Instead of navigating away and back, use setState or a callback to refresh
-                        // Since this is a StatelessWidget, use Get.forceAppUpdate() to force a rebuild
-                        Get.forceAppUpdate();
-                      },
-                    ),
-                    Positioned(
-                      right: 8,
-                      top: 8,
-                      child: Container(
-                        padding: const EdgeInsets.all(4),
-                        decoration: const BoxDecoration(
-                          color: AppConstants.primaryColor,
-                          shape: BoxShape.circle,
+          Builder(
+            builder: (context) {
+              if (user == null) {
+                return IconButton(
+                  icon: const Icon(
+                    Icons.notifications,
+                    color: AppConstants.primaryIconColor,
+                  ),
+                  onPressed: () {
+                    // No user, just navigate
+                    Get.toNamed('/notifications');
+                  },
+                );
+              }
+              return FutureBuilder<int>(
+                future: NotificationService.getUnreadNotificationCount(user.uid),
+                builder: (context, snapshot) {
+                  final count = snapshot.data ?? 0;
+                  return Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      IconButton(
+                        icon: const Icon(
+                          Icons.notifications,
+                          color: AppConstants.primaryIconColor,
                         ),
-                        child: Text(
-                          '$count',
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 12,
-                            fontWeight: FontWeight.bold,
+                        onPressed: () async {
+                          await NotificationService.markAllAsRead(user.uid);
+                          // Force page reload before navigating
+                          Get.forceAppUpdate();
+                          Get.toNamed('/notifications');
+                        },
+                      ),
+                      if (count > 0)
+                        Positioned(
+                          right: 8,
+                          top: 8,
+                          child: Container(
+                            padding: const EdgeInsets.all(4),
+                            decoration: const BoxDecoration(
+                              color: AppConstants.primaryColor,
+                              shape: BoxShape.circle,
+                            ),
+                            child: Text(
+                              '$count',
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                           ),
                         ),
-                      ),
-                    ),
-                  ],
-                );
-              },
-            ),
+                    ],
+                  );
+                },
+              );
+            },
+          ),
         ],
       ),
       body: FutureBuilder<List<OrderModel>>(

@@ -92,11 +92,11 @@ class BrandManagementScreen extends StatelessWidget {
 
                 Get.back();
               },
-              child: const Text('Save'),
+              child: const Text('Save' ,  style: TextStyle(color: AppConstants.primaryColor),),
             ),
             TextButton(
               onPressed: () => Get.back(),
-              child: const Text('Cancel'),
+              child: const Text('Cancel' ,  style: TextStyle(color: AppConstants.accentDarkGrey),),
             ),
           ],
         );

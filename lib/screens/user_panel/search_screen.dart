@@ -36,73 +36,72 @@ class SearchScreen extends StatelessWidget {
       ),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              TextField(
-                controller: searchTextController,
-                decoration: InputDecoration(
-                  hintText: 'Search laptops by name (e.g. MacBook, Asus)',
-                  suffixIcon: IconButton(
-                    icon: const Icon(Icons.search),
-                    onPressed: () {
-                      searchController.searchByName(
-                        searchTextController.text.trim(),
-                      );
-                    },
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12.0),
-                  ),
-                ),
-                onSubmitted: (value) {
-                  searchController.searchByName(value.trim());
-                },
-              ),
-              const SizedBox(height: 16),
-              // Category filter example
-              SizedBox(
-                height: 40,
-                child: ListView(
-                  scrollDirection: Axis.horizontal,
-                  children: [
-                    _CategoryChip(
-                      label: 'All',
-                      chipColor: AppConstants.appStatusBarColor,
-                      textColor: AppConstants.invertTextColor,
-                      onTap: () {
-                        Future.microtask(
-                          () => searchController.fetchAllProducts(),
+          padding: const EdgeInsets.all(6.0),
+          child: SingleChildScrollView(
+            // physics: const BouncingScrollPhysics(),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                TextField(
+                  controller: searchTextController,
+                  decoration: InputDecoration(
+                    hintText: 'Search laptops by name (e.g. MacBook, Asus)',
+                    suffixIcon: IconButton(
+                      icon: const Icon(Icons.search),
+                      onPressed: () {
+                        searchController.searchByName(
+                          searchTextController.text.trim(),
                         );
                       },
                     ),
-                    _CategoryChip(
-                      label: 'Gaming',
-                      chipColor: AppConstants.appStatusBarColor,
-                      textColor: AppConstants.invertTextColor,
-                      onTap: () => searchController.filterByCategory('Gaming'),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12.0),
                     ),
-                    _CategoryChip(
-                      label: 'Business',
-                      chipColor: AppConstants.appStatusBarColor,
-                      textColor: AppConstants.invertTextColor,
-                      onTap:
-                          () => searchController.filterByCategory('Business'),
-                    ),
-                    _CategoryChip(
-                      label: 'Student',
-                      chipColor: AppConstants.appStatusBarColor,
-                      textColor: AppConstants.invertTextColor,
-                      onTap: () => searchController.filterByCategory('Student'),
-                    ),
-                    // Add more categories as needed
-                  ],
+                  ),
+                  onSubmitted: (value) {
+                    searchController.searchByName(value.trim());
+                  },
                 ),
-              ),
-              const SizedBox(height: 16),
-              Expanded(
-                child: Obx(() {
+                const SizedBox(height: 16),
+                SizedBox(
+                  height: 40,
+                  child: ListView(
+                    scrollDirection: Axis.horizontal,
+                    children: [
+                      _CategoryChip(
+                        label: 'All',
+                        chipColor: AppConstants.appStatusBarColor,
+                        textColor: AppConstants.invertTextColor,
+                        onTap: () {
+                          searchController.fetchAllProducts();
+                        },
+                      ),
+                      _CategoryChip(
+                        label: 'Gaming',
+                        chipColor: AppConstants.appStatusBarColor,
+                        textColor: AppConstants.invertTextColor,
+                        onTap:
+                            () => searchController.filterByCategory('Gaming'),
+                      ),
+                      _CategoryChip(
+                        label: 'Business',
+                        chipColor: AppConstants.appStatusBarColor,
+                        textColor: AppConstants.invertTextColor,
+                        onTap:
+                            () => searchController.filterByCategory('Business'),
+                      ),
+                      _CategoryChip(
+                        label: 'Student',
+                        chipColor: AppConstants.appStatusBarColor,
+                        textColor: AppConstants.invertTextColor,
+                        onTap:
+                            () => searchController.filterByCategory('Student'),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 16),
+                Obx(() {
                   if (searchController.isLoading.value) {
                     return const Center(child: CircularProgressIndicator());
                   }
@@ -113,24 +112,30 @@ class SearchScreen extends StatelessWidget {
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2,
-                          crossAxisSpacing: 12,
-                          mainAxisSpacing: 12,
+                          crossAxisSpacing: 1,
+                          mainAxisSpacing: 1,
                           childAspectRatio: 0.8,
                         ),
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
                     itemCount: searchController.searchResults.length,
                     itemBuilder: (context, index) {
                       final product = searchController.searchResults[index];
-                      return ProductCard(
-                        product: product,
-                        onTap: () {
-                          Get.toNamed('/productDetails/${product.id}');
-                        },
+
+                      return Container(
+                        padding: const EdgeInsets.all(8),
+                        child: ProductCard(
+                          product: product,
+                          onTap: () {
+                            Get.toNamed('/productDetails/${product.id}');
+                          },
+                        ),
                       );
                     },
                   );
                 }),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -159,6 +164,11 @@ class _CategoryChip extends StatelessWidget {
         label: Text(label, style: TextStyle(color: textColor)),
         backgroundColor: chipColor,
         onPressed: onTap,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+          side: BorderSide(color: AppConstants.primaryColor, width: 1),
+        ),
+        elevation: 0,
       ),
     );
   }

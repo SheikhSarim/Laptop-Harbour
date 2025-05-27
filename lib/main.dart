@@ -15,7 +15,10 @@ import 'package:laptops_harbour/screens/startup/splash_screen.dart';
 import 'package:laptops_harbour/screens/user_panel/brands/brand_screen.dart';
 import 'package:laptops_harbour/screens/user_panel/home.dart';
 import 'package:laptops_harbour/screens/user_panel/product/product_detals.dart';
+import 'package:laptops_harbour/screens/user_panel/profile/drawer_profile.dart';
+import 'package:laptops_harbour/screens/user_panel/profile/edit_profile_screen.dart';
 import 'package:laptops_harbour/screens/user_panel/profile/feedback_screen.dart';
+import 'package:laptops_harbour/screens/user_panel/profile/profile_screen.dart';
 import 'package:laptops_harbour/screens/user_panel/profile/reset_password.dart';
 import 'package:laptops_harbour/screens/user_panel/search_screen.dart';
 import 'package:laptops_harbour/screens/user_panel/store/store.dart';
@@ -27,7 +30,7 @@ import 'package:laptops_harbour/screens/user_panel/order/order_history_screen.da
 import 'package:laptops_harbour/utils/constants/app_constants.dart';
 import 'screens/user_panel/cart/checkout_screen.dart';
 import 'package:laptops_harbour/screens/admin-panel/banners.dart';
-import 'screens/user_panel/profile/edit_profile_screen.dart';
+
 import 'screens/user_panel/profile/notifications_screen.dart';
 import 'screens/user_panel/profile/terms_and_conditions_screen.dart';
 import 'screens/user_panel/profile/privacy_policy_screen.dart';
@@ -73,10 +76,11 @@ class LaptopHarbourApp extends StatelessWidget {
         GetPage(name: '/store', page: () => Store()),
         GetPage(name: '/searchscreen', page: () => SearchScreen()),
         GetPage(name: '/wishlistscreen', page: () => WishlistScreen()),
-
+        GetPage(name: '/profile', page: () => ProfileScreen()),
         //cloned
         GetPage(name: '/storescreenDrawer', page: () => StoreScreen()),
         GetPage(name: '/wishlistDrawer', page: () => Wishlist()),
+        GetPage(name: '/profileDrawer', page: () => DrawerProfileScreen()),
 
         GetPage(
           name: '/cart',

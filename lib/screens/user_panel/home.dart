@@ -94,7 +94,7 @@ class HomeScreen extends StatelessWidget {
           case 2:
             return WishlistScreen();
           case 3:
-            return ProfileScreen();
+            return ProfileScreen(); 
           default:
             return const _HomeTabContent();
         }

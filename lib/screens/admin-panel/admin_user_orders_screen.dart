@@ -140,6 +140,7 @@ class _AdminUserOrdersScreenState extends State<AdminUserOrdersScreen> {
                                 child: Text('Cancelled'),
                               ),
                             ],
+                            dropdownColor: AppConstants.surfaceColor,
                             onChanged: (value) {
                               if (value != null && value != status) {
                                 _updateOrderStatus(orderId, value);

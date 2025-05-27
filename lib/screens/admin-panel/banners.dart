@@ -63,7 +63,7 @@ class _BannersScreenState extends State<BannersScreen> {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppConstants.primaryColor,
                   ),
-                  child: const Text('Add'),
+                  child: const Text('Add' , style: TextStyle(color: AppConstants.invertTextColor),),
                 ),
               ],
             ),

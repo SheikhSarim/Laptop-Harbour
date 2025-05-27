@@ -65,7 +65,7 @@ class BrandCardCarousel extends StatelessWidget {
               separatorBuilder: (_, __) => const SizedBox(width: 12),
               itemBuilder: (context, index) {
                 final brand = controller.brands[index];
-                return BrandCardWidget(brand: brand);
+                return BrandCardWidget(brand: brand , cardWidth: 160,);
               },
             ),
           ),

@@ -57,9 +57,9 @@ class _ProductDetailsState extends State<ProductDetails> {
           icon: Icon(Icons.arrow_back, color: AppConstants.primaryIconColor),
           onPressed: () {
             if (Navigator.canPop(context)) {
-              Navigator.pop(context); // Fallback to the regular Navigator
+              Navigator.pop(context); 
             } else {
-              Get.back(); // Use GetX back navigation
+              Get.back(); 
             }
           },
         ),
@@ -120,8 +120,8 @@ class _ProductDetailsState extends State<ProductDetails> {
                     child: Text(
                       product.name,
                       style: Theme.of(context).textTheme.headlineSmall,
-                      maxLines: 2, // Allow max 2 lines (or more if you want)
-                      overflow: TextOverflow.ellipsis, // Adds ... if overflow
+                      maxLines: 2, 
+                      overflow: TextOverflow.ellipsis, 
                     ),
                   ),
                   IconButton(
@@ -166,7 +166,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                 decoration: BoxDecoration(
                   border: Border.all(
                     color: Colors.transparent,
-                  ), // Removes border
+                  ), 
                 ),
                 child: ExpansionTile(
                   title: Text(
@@ -205,13 +205,13 @@ class _ProductDetailsState extends State<ProductDetails> {
                               '\$${NumberFormat("#,##0.00", "en_US").format(product.price)}',
                           style: TextStyle(
                             color: AppConstants.priceGreen,
-                          ), // Value in green
+                          ), 
                         ),
                       ],
                     ),
                   ),
 
-                  // Check product stock before adding to the cart
+          
                   Material(
                     child: Container(
                       width: Get.width / 2,

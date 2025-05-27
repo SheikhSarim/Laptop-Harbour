@@ -93,6 +93,8 @@ class ProfileScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       // Profile avatar with subtle shadow
+                      const SizedBox(height: 10),
+
                       Container(
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
