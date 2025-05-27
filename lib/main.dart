@@ -12,6 +12,7 @@ import 'package:laptops_harbour/screens/auth/login_screen.dart';
 import 'package:laptops_harbour/screens/auth/sign_up_screen.dart';
 import 'package:laptops_harbour/screens/startup/onboarding.dart';
 import 'package:laptops_harbour/screens/startup/splash_screen.dart';
+import 'package:laptops_harbour/screens/user_panel/brands/brand_screen.dart';
 import 'package:laptops_harbour/screens/user_panel/home.dart';
 import 'package:laptops_harbour/screens/user_panel/product/product_detals.dart';
 import 'package:laptops_harbour/screens/user_panel/profile/feedback_screen.dart';
@@ -72,16 +73,19 @@ class LaptopHarbourApp extends StatelessWidget {
         GetPage(name: '/store', page: () => Store()),
         GetPage(name: '/searchscreen', page: () => SearchScreen()),
         GetPage(name: '/wishlistscreen', page: () => WishlistScreen()),
-      
+
         //cloned
         GetPage(name: '/storescreenDrawer', page: () => StoreScreen()),
         GetPage(name: '/wishlistDrawer', page: () => Wishlist()),
 
-
-        GetPage(name: '/cart', page: () {
-          final ProductController productController = Get.find<ProductController>();
-          return CartScreen(products: productController.products);
-        }),
+        GetPage(
+          name: '/cart',
+          page: () {
+            final ProductController productController =
+                Get.find<ProductController>();
+            return CartScreen(products: productController.products);
+          },
+        ),
 
         // For ProductDetails: using parameters
         GetPage(
@@ -90,29 +94,17 @@ class LaptopHarbourApp extends StatelessWidget {
               () =>
                   ProductDetails(productId: Get.parameters['productId'] ?? ''),
         ),
+        GetPage(
+          name: '/brand-details',
+          page: () => BrandDetailsScreen(brand: Get.arguments),
+        ),
 
-        // Optionally, add a placeholder for checkout
-        GetPage(
-          name: '/checkout',
-          page: () => CheckoutScreen(),
-        ),
-        GetPage(
-          name: '/order-history',
-          page: () => const OrderHistoryScreen(),
-        ),
-        
-        GetPage(
-          name: '/reset-password',
-          page: () => ResetPasswordScreen(),
-        ),
-         GetPage(
-          name: '/feedback',
-          page: () => FeedbackScreen(),
-        ),
-        GetPage(
-          name: '/edit-profile',
-          page: () => const EditProfileScreen(),
-        ),
+        GetPage(name: '/checkout', page: () => CheckoutScreen()),
+        GetPage(name: '/order-history', page: () => const OrderHistoryScreen()),
+
+        GetPage(name: '/reset-password', page: () => ResetPasswordScreen()),
+        GetPage(name: '/feedback', page: () => FeedbackScreen()),
+        GetPage(name: '/edit-profile', page: () => const EditProfileScreen()),
         GetPage(
           name: '/notifications',
           page: () => const NotificationsScreen(),
@@ -131,20 +123,9 @@ class LaptopHarbourApp extends StatelessWidget {
           name: '/admin_user_orders',
           page: () => const AdminUserOrdersScreen(),
         ),
-        GetPage(
-          name: '/user_detail',
-          page: () => const UserDetailScreen(),
-        ),
-        GetPage(
-          name: '/admin-banners',
-          page: () => const BannersScreen(),
-        ),
-         GetPage(
-          name: '/users-feedback',
-          page: () => UserFeedbackScreen(),
-        ),
-      
-      
+        GetPage(name: '/user_detail', page: () => const UserDetailScreen()),
+        GetPage(name: '/admin-banners', page: () => const BannersScreen()),
+        GetPage(name: '/users-feedback', page: () => UserFeedbackScreen()),
       ],
     );
   }

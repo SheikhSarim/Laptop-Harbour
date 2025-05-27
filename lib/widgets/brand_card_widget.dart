@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:laptops_harbour/models/brand_model.dart';
 import 'package:laptops_harbour/utils/constants/app_constants.dart';
 
@@ -16,7 +17,7 @@ class BrandCardWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        // Get.to(() => BrandDetailsScreen(brand: brand));
+        Get.toNamed('/brand-details', arguments: brand);
       },
       child: SizedBox(
         width: cardWidth, 
