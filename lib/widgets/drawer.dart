@@ -66,8 +66,7 @@ class DrawerWidget extends StatelessWidget {
             _buildDrawerItem(
               icon: Icons.person,
               label: 'Profile',
-              onTap: () {}
-              // onTap: () => Get.offAll(() => Profile()),
+              onTap: () => Get.toNamed('/profileDrawer'),
             ),
             _buildDrawerItem(
               icon: Icons.history,
