@@ -46,10 +46,6 @@ class DrawerProfileScreen extends StatelessWidget {
             ),
             automaticallyImplyLeading: true,
             centerTitle: true,
-            title: const Text(
-              'Profile',
-              style: TextStyle(color: AppConstants.invertTextColor),
-            ),
             backgroundColor: Colors.transparent,
             // elevation: 1,
           ),
