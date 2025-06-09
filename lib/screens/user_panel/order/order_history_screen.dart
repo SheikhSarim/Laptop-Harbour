@@ -12,7 +12,6 @@ class OrderHistoryScreen extends StatelessWidget {
 
   Future<List<OrderModel>> _fetchOrders() async {
     final user = FirebaseAuth.instance.currentUser;
-    // print('Current user UID: ${user?.uid}');
     if (user == null) return [];
     final snapshot =
         await FirebaseFirestore.instance
@@ -21,13 +20,11 @@ class OrderHistoryScreen extends StatelessWidget {
             .collection('userOrders')
             .orderBy('timestamp', descending: true)
             .get();
-    // print('Fetched ${snapshot.docs.length} orders for user ${user.uid}');
     try {
       return snapshot.docs
           .map((doc) => OrderModel.fromMap(doc.data()))
           .toList();
     } catch (e) {
-      // print('Order parsing error: $e\n$st');
       return [];
     }
   }
@@ -54,7 +51,6 @@ class OrderHistoryScreen extends StatelessWidget {
                     color: AppConstants.primaryIconColor,
                   ),
                   onPressed: () {
-                    // No user, just navigate
                     Get.toNamed('/notifications');
                   },
                 );
@@ -73,7 +69,6 @@ class OrderHistoryScreen extends StatelessWidget {
                         ),
                         onPressed: () async {
                           await NotificationService.markAllAsRead(user.uid);
-                          // Force page reload before navigating
                           Get.forceAppUpdate();
                           Get.toNamed('/notifications');
                         },

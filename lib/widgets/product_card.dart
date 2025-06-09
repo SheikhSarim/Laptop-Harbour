@@ -57,7 +57,7 @@ class _ProductCardState extends State<ProductCard> {
       child: Stack(
         children: [
           Container(
-            padding: EdgeInsets.all(screenWidth * 0.02), // Responsive padding
+            padding: EdgeInsets.all(screenWidth * 0.02), 
             decoration: BoxDecoration(
               color: AppConstants.cardColor,
               borderRadius: BorderRadius.circular(12),
@@ -76,7 +76,7 @@ class _ProductCardState extends State<ProductCard> {
                 // Product Image
                 SizedBox(
                   width: double.infinity,
-                  height: screenHeight * 0.15, // Responsive height
+                  height: screenHeight * 0.15, 
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(12),
                     child: Image.network(
@@ -92,7 +92,7 @@ class _ProductCardState extends State<ProductCard> {
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
-                    fontSize: screenWidth * 0.04, // Responsive font size
+                    fontSize: screenWidth * 0.04, 
                     fontWeight: FontWeight.bold,
                     color: Colors.black,
                   ),
@@ -133,7 +133,6 @@ class _ProductCardState extends State<ProductCard> {
               ],
             ),
           ),
-          // Heart Icon (top-left)
           Positioned(
             top: 4,
             left: 4,
@@ -153,7 +152,6 @@ class _ProductCardState extends State<ProductCard> {
               ),
             ),
           ),
-          // Out of Stock Badge (top-right)
           if (!widget.product.inStock)
             Positioned(
               top: 8,

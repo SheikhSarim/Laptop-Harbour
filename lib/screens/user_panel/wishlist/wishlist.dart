@@ -43,9 +43,7 @@ class _WishlistScreenState extends State<WishlistScreen> {
   void _toggleFavorite(ProductModel product) async {
     final prefs = await SharedPreferences.getInstance();
     final key = 'favorite_${product.id}';
-    await prefs.setBool(key, false); // Directly set to false
-
-    // Immediately remove from local list and update UI
+    await prefs.setBool(key, false); 
     setState(() {
       wishlistProducts.removeWhere((p) => p.id == product.id);
     });

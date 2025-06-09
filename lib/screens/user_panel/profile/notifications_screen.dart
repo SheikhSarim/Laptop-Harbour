@@ -55,7 +55,6 @@ class NotificationsScreen extends StatelessWidget {
                 time = DateTime.tryParse(timestampRaw);
               }
 
-              // Choose icon and color based on status
               IconData iconData;
               Color iconColor = AppConstants.primaryColor;
               String displayMessage;

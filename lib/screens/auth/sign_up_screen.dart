@@ -13,7 +13,6 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  // Get the SignUpController
   final SignUpController signUpController = Get.put(SignUpController());
 
   @override
@@ -44,7 +43,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     ),
                     SizedBox(
                       height: 8,
-                    ), // small space between title and subtext
+                    ), 
                     Text(
                       "Please fill in the form to continue",
                       style: TextStyle(

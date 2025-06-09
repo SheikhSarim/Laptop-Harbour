@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart'; 
 import 'package:get/get.dart';
 import 'package:laptops_harbour/models/product_model.dart';
@@ -11,8 +13,8 @@ void showAddReviewDialog(
   ProductModel product,
   UserModel currentUser,
 ) {
-  final _ratingController = TextEditingController();
-  final _reviewController = TextEditingController();
+  final ratingController = TextEditingController();
+  final reviewController = TextEditingController();
 
   showDialog(
     context: context,
@@ -24,14 +26,14 @@ void showAddReviewDialog(
           mainAxisSize: MainAxisSize.min,
           children: [
             TextField(
-              controller: _ratingController,
+              controller: ratingController,
               keyboardType: TextInputType.number,
               decoration: const InputDecoration(
                 labelText: 'Rating (0.0 - 5.0)',
               ),
             ),
             TextField(
-              controller: _reviewController,
+              controller: reviewController,
               decoration: const InputDecoration(labelText: 'Review'),
               maxLines: 3,
             ),
@@ -40,8 +42,8 @@ void showAddReviewDialog(
         actions: [
           TextButton(
             onPressed: () async {
-              final rating = double.tryParse(_ratingController.text);
-              final reviewText = _reviewController.text;
+              final rating = double.tryParse(ratingController.text);
+              final reviewText = reviewController.text;
 
               if (rating == null || rating < 0.0 || rating > 5.0) {
                 Get.snackbar('Invalid Rating', 'Please enter a rating between 0.0 and 5.0');
@@ -53,10 +55,6 @@ void showAddReviewDialog(
                 return;
               }
 
-              // if (reviewText.length < 10) {
-              //   Get.snackbar('Short Review', 'Review should be at least 10 characters long');
-              //   return;
-              // }
 
               final review = UserReview(
                 userId: currentUser.userId,

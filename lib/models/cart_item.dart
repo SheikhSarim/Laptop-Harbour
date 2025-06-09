@@ -4,15 +4,14 @@ class CartItem {
   final String imageUrl;
   final double price;
   int quantity;
-  final int availableQuantity;  // Added the availableQuantity field
-
+  final int availableQuantity;  
   CartItem({
     required this.productId,
     required this.title,
     required this.imageUrl,
     required this.price,
     this.quantity = 1,
-    required this.availableQuantity,  // Updated constructor to accept availableQuantity
+    required this.availableQuantity,  
   });
 
   // Convert CartItem to JSON
@@ -22,7 +21,7 @@ class CartItem {
         'imageUrl': imageUrl,
         'price': price,
         'quantity': quantity,
-        'availableQuantity': availableQuantity,  // Add to JSON
+        'availableQuantity': availableQuantity,  
       };
 
   // Convert JSON to CartItem
@@ -32,6 +31,6 @@ class CartItem {
         imageUrl: json['imageUrl'],
         price: (json['price'] as num).toDouble(),
         quantity: json['quantity'],
-        availableQuantity: json['availableQuantity'],  // Add availableQuantity
+        availableQuantity: json['availableQuantity'], 
       );
 }

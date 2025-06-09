@@ -11,7 +11,7 @@ class ProductController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    fetchProducts(); // Load products on controller init
+    fetchProducts(); 
   }
 
   // 🔄 Fetch all products from Firestore
@@ -25,7 +25,7 @@ class ProductController extends GetxController {
               .map((doc) => ProductModel.fromMap(doc.id, doc.data()))
               .toList();
 
-      products.assignAll(productList); // Update the products list
+      products.assignAll(productList);
     } catch (e) {
       Get.snackbar('Error', 'Failed to load products: $e');
     } finally {

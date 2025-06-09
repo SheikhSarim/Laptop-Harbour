@@ -16,7 +16,6 @@ class _OnboardingScreensState extends State<OnboardingScreens> {
 
   List<Map<String, String>> get splashData {
     final appName = AppConstants.appTitle;
-    // final appName = Text("Laptops Haorbour");
     return [
       {
         "text":
@@ -45,7 +44,6 @@ class _OnboardingScreensState extends State<OnboardingScreens> {
   @override
   void initState() {
     super.initState();
-    // _loadPreferences();
   }
 
   @override
@@ -65,7 +63,6 @@ class _OnboardingScreensState extends State<OnboardingScreens> {
                
                 width: screenWidth,
                 color: AppConstants.surfaceColor,
-                // color: AppConstants.appBackgroundColor,
                 child: Center(
                   child: Image.asset(
                     item["image"]!,
@@ -121,13 +118,6 @@ class _OnboardingScreensState extends State<OnboardingScreens> {
               decoration: BoxDecoration(
                 color: AppConstants.appSecondaryColor,
                 borderRadius: BorderRadius.circular(10),
-                // boxShadow: [
-                //   BoxShadow(
-                //     color: Colors.black.withOpacity(0.1),
-                //     blurRadius: 10,
-                //     spreadRadius: 5,
-                //   ),
-                // ],
               ),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -167,7 +157,6 @@ class _OnboardingScreensState extends State<OnboardingScreens> {
                         backgroundColor: AppConstants.appButtonColor,
                       ),
                       onPressed: () {
-                        // Temporarily navigate to LoginScreen directly
                         Get.toNamed('/login');
                       },
                       child: Text(

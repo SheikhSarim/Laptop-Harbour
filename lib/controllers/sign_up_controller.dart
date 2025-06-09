@@ -95,14 +95,11 @@ class SignUpController extends GetxController {
     isLoading.value = true;
 
     try {
-      // Create user with Firebase Auth
       UserCredential userCredential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
 
-      // Send email verification
       await userCredential.user!.sendEmailVerification();
 
-      // Save user information to Firestore
       UserModel newUser = UserModel(
         username: username,
         email: email,
@@ -112,20 +109,16 @@ class SignUpController extends GetxController {
         createdOn: DateTime.now(),
       );
 
-      // Save user model to Firestore
       await newUser.saveUserToFirestore();
 
-      // Provide feedback to the user
       Get.snackbar(
         'Success',
         'Account created successfully. Please verify your email.',
         snackPosition: SnackPosition.BOTTOM,
       );
 
-      // Redirect to Login Screen
       Get.toNamed('/login');
     } on FirebaseAuthException catch (e) {
-      // Handle Firebase Auth exceptions
       if (e.code == 'weak-password') {
         Get.snackbar('Error', 'The password is too weak.');
       } else if (e.code == 'email-already-in-use') {
@@ -136,7 +129,6 @@ class SignUpController extends GetxController {
     } catch (e) {
       Get.snackbar('Error', 'Something went wrong. Please try again.');
     } finally {
-      // Stop loading state
       isLoading.value = false;
     }
   }

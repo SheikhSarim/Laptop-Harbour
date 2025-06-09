@@ -12,7 +12,6 @@ class SearchScreen extends StatelessWidget {
   final TextEditingController searchTextController = TextEditingController();
 
   SearchScreen({super.key}) {
-    // Fetch all products from Firestore on initial load
     Future.microtask(() => searchController.fetchAllProducts());
   }
 
@@ -38,7 +37,6 @@ class SearchScreen extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(6.0),
           child: SingleChildScrollView(
-            // physics: const BouncingScrollPhysics(),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

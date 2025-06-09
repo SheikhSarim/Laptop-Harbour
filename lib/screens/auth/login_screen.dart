@@ -52,9 +52,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         color: AppConstants.primaryTextColor,
                       ),
                     ),
-                    SizedBox(
-                      height: 8,
-                    ), 
+                    SizedBox(height: 8),
                     Text(
                       "Welcome back! Please enter your credentials",
                       textAlign: TextAlign.center,

@@ -15,7 +15,7 @@ class BrandController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    fetchBrands(); // Fetch brands when the controller is initialized
+    fetchBrands(); 
   }
 
   // Method to fetch brands from Firestore
@@ -27,9 +27,9 @@ class BrandController extends GetxController {
           snapshot.docs
               .map(
                 (doc) => BrandModel.fromMap(doc.id, doc.data()),
-              ) // Pass the doc.id and doc.data()
+              ) 
               .toList();
-      brands.assignAll(brandList); // Update the brands list
+      brands.assignAll(brandList);
     } catch (e) {
       print('Error fetching brands: $e');
     } finally {
@@ -45,7 +45,7 @@ class BrandController extends GetxController {
 
   // 👇 Smooth scroll to item
   void scrollToIndex(int index) {
-    final position = index * 152.0; // 140 card + 12 spacing
+    final position = index * 152.0; 
     scrollController.animateTo(
       position,
       duration: const Duration(milliseconds: 300),

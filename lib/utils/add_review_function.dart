@@ -11,7 +11,6 @@ Future<void> addReviewToProduct(String productId, UserReview newReview) async {
   final reviews = List<Map<String, dynamic>>.from(productData['reviews'] ?? []);
   reviews.add(newReview.toJson());
 
-  // Calculate new average rating
   double totalRating = reviews.fold(0.0, (sum, r) => sum + (r['rating'] ?? 0).toDouble());
   double averageRating = reviews.isNotEmpty ? totalRating / reviews.length : 0.0;
 

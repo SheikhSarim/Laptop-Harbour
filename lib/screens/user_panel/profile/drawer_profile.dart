@@ -108,7 +108,6 @@ class DrawerProfileScreen extends StatelessWidget {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      // Profile avatar with subtle shadow
                       Container(
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
@@ -190,7 +189,7 @@ class DrawerProfileScreen extends StatelessWidget {
                         },
                       ),
                       _ProfileOption(
-                        icon: Icons.notifications,
+                        icon: Icons.feedback,
                         label: 'Feedback',
                         onTap: () {
                           Get.toNamed('/feedback');

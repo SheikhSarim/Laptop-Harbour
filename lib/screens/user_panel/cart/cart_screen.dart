@@ -43,7 +43,7 @@ class CartScreen extends StatelessWidget {
                   onPressed: () {
                     Get.toNamed(
                       '/storescreenDrawer',
-                    ); // or whatever your store route is
+                    ); 
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppConstants.primaryColor,

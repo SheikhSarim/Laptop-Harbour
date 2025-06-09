@@ -65,7 +65,6 @@ class CheckoutController extends GetxController {
       await FirebaseFirestore.instance.collection('users').doc(user.uid).set({
         'deliveryAddress': address.trim(),
       }, SetOptions(merge: true));
-      // Send order confirmation email (learning/demo only)
       await EmailService.sendOrderConfirmation(
         toEmail: user.email ?? '',
         userName: user.displayName ?? 'Customer',

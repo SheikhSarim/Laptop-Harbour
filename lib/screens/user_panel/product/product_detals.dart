@@ -312,15 +312,15 @@ class _ProductDetailsState extends State<ProductDetails> {
                     },
                     icon: const Icon(
                       Icons.add_comment,
-                      size: 24.0, // Customize the icon size
-                      color: AppConstants.invertTextColor, // Icon color
+                      size: 24.0, 
+                      color: AppConstants.invertTextColor, 
                     ),
                     label: const Text(
                       "Add Review",
                       style: TextStyle(
-                        fontSize: 16.0, // Customize font size
-                        fontWeight: FontWeight.bold, // Text weight
-                        color: AppConstants.invertTextColor, // Text color
+                        fontSize: 16.0, 
+                        fontWeight: FontWeight.bold, 
+                        color: AppConstants.invertTextColor, 
                       ),
                     ),
                     style: ElevatedButton.styleFrom(
@@ -333,7 +333,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30.0),
                       ),
-                      elevation: 5, // Shadow effect
+                      elevation: 5, 
                     ),
                   ),
                 ],

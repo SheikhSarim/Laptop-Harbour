@@ -21,9 +21,8 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    // Add a delay to finish the animation
     Future.delayed(Duration(seconds: 7), () {
-      _checkUserStatus(); // Check user status after the animation completes
+      _checkUserStatus(); 
     });
   }
 
@@ -32,11 +31,9 @@ class _SplashScreenState extends State<SplashScreen> {
     bool isOnboardingCompleted =
         prefs.getBool('isOnboardingCompleted') ?? false;
 
-    // Check if the user is logged in using FirebaseAuth
     User? user = FirebaseAuth.instance.currentUser;
 
     if (user != null) {
-      // Check if the user is an admin
       final userDoc =
           await FirebaseFirestore.instance
               .collection('users')

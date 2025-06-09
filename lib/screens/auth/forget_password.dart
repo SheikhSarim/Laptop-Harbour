@@ -25,11 +25,6 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
             backgroundColor: AppConstants.appBackgroundColor,
             iconTheme: IconThemeData(color: AppConstants.primaryIconColor),
             automaticallyImplyLeading: true,
-            // centerTitle: true,
-            // title: Text(
-            //   "Forget Password",
-            //   style: TextStyle(color: AppConstants.primaryTextColor),
-            // ),
           ),
           body: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),

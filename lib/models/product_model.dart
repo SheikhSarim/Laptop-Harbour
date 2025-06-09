@@ -10,7 +10,7 @@ class ProductModel {
   final double rating;
   final List<String> specifications;
   final List<UserReview> reviews;
-  final int quantity; // ✅ New field
+  final int quantity; 
   final String category;
 
   ProductModel({
@@ -27,7 +27,7 @@ class ProductModel {
     required this.category,
   });
 
-  bool get inStock => quantity > 0; // ✅ inStock derived from quantity
+  bool get inStock => quantity > 0; 
 
   Map<String, dynamic> toMap() {
     return {

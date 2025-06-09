@@ -45,7 +45,6 @@ class UserDetailScreen extends StatelessWidget {
                 Text('User ID: ${user['uid']}', style: const TextStyle(fontSize: 16)),
                 const SizedBox(height: 8),
                 Text('Admin: ${user['isAdmin'] == true ? 'Yes' : 'No'}', style: const TextStyle(fontSize: 16)),
-                // Add more fields as needed
               ],
             ),
           ),

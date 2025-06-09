@@ -40,7 +40,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       final data = doc.data();
       if (data != null) {
         _nameController.text = data['username'] ?? '';
-        // Support both 'contact' and 'contactNumber' fields for backward compatibility
         _contactController.text = data['contactNumber'] ?? data['contact'] ?? '';
         if (!_isDisposed) {
           setState(() {

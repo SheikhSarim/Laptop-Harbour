@@ -30,16 +30,13 @@ class AdminController extends GetxController {
   Future<void> fetchProducts() async {
     isLoading.value = true;
     try {
-      // Fetch products from Firestore
       final querySnapshot = await firestore.collection('products').get();
-      // Map Firestore documents to ProductModel instances
       products.value =
           querySnapshot.docs
               .map((doc) => ProductModel.fromMap(doc.id, doc.data()))
               .toList();
       isError.value = false;
     } catch (e) {
-      // Handle error (e.g., network issue)
       print('Error fetching products: $e');
       isError.value = true;
     } finally {
@@ -57,7 +54,6 @@ class AdminController extends GetxController {
       products.add(product);
     } catch (e) {
       print('Error adding product: $e');
-      // You can handle an error state here if necessary
     }
   }
 
@@ -70,11 +66,10 @@ class AdminController extends GetxController {
           .update(product.toMap());
       final index = products.indexWhere((p) => p.id == product.id);
       if (index != -1) {
-        products[index] = product; // Update the list
+        products[index] = product;
       }
     } catch (e) {
       print('Error updating product: $e');
-      // Handle error state if needed
     }
   }
 
@@ -85,7 +80,6 @@ class AdminController extends GetxController {
       products.removeWhere((product) => product.id == id);
     } catch (e) {
       print('Error deleting product: $e');
-      // Handle error state if needed
     }
   }
 

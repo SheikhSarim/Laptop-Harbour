@@ -38,7 +38,7 @@ import 'screens/user_panel/profile/privacy_policy_screen.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  Get.put(CartController()); // Ensure CartController is available globally
+  Get.put(CartController());
   runApp(const LaptopHarbourApp());
 }
 

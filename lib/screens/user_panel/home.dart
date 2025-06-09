@@ -55,7 +55,6 @@ class HomeScreen extends StatelessWidget {
                     () =>
                         cartController.cartItems.isNotEmpty
                             ? Container(
-                              // padding: EdgeInsets.all(4),
                               height: 15,
                               width: 15,
                               decoration: BoxDecoration(
@@ -186,7 +185,6 @@ class _HomeTabContent extends StatelessWidget {
                   return const Center(child: Text('No products found.'));
                 }
 
-                // Limit the products to a maximum of 6 for the home screen
                 final limitedProducts =
                     productController.products.take(4).toList();
 

@@ -16,7 +16,6 @@ class UserManagementScreen extends StatelessWidget {
         'username': data['username'] ?? 'No Name',
         'email': data['email'] ?? '',
         'isAdmin': data['isAdmin'] ?? false,
-        // Add more fields as needed
       };
     }).toList();
   }

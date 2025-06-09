@@ -25,7 +25,6 @@ class BrandDetailsScreen extends StatelessWidget {
       ),
       body: Column(
         children: [
-          /// 🖼️ Brand Logo
           Container(
             padding: const EdgeInsets.all(16),
             height: 180,
@@ -57,7 +56,6 @@ class BrandDetailsScreen extends StatelessWidget {
               return ListView(
                 padding: const EdgeInsets.all(16),
                 children: [
-                  /// 🔹 Section Title Row
                   Row(
                     children: [
                       const Text(
